@@ -12,22 +12,68 @@
 </head>
 
 <body>
+  <div class="login-popup" id="loginPopup">
 
-<nav class="navbar navbar-expand-lg navbar-dark custom-navbar shadow-sm">
-<div class="container">
+  <span class="close-login" id="closeLogin">
+    <i class="fa fa-times"></i>
+  </span>
 
-<a class="navbar-brand fw-bold" href="#">FullStack</a>
+  <div class="form-wrapper-login">
+
+    <div class="form-container-login">
+
+      <div class="form-header-login">Obten hasta 40% de descuento</div>
+
+      <div class="form-subtext-login">
+        Sign up to be the first to know about new product launches and promotions.
+      </div>
+
+      <form id="loginForm">
+
+        <div class="form-row-login">
+          <input type="text" placeholder="Ingresa tu Correo">
+        </div>
+      
+        <div class="form-row-login">
+          <input type="text" placeholder="Ingresa tu Numero">
+          <button class="is-btn-login">Suscribirse</button>
+        </div>
+
+        <div class="form-optin-login">
+          <input type="checkbox">
+          <div class="legales">
+            By subscribing to our list, you understand and agree to the 
+            <a href="https://chevignon.us/pages/general-terms-and-conditions" target="_blank" class="links">General Terms and Conditions</a> 
+            and the 
+            <a href="https://chevignon.us/pages/privacy-policy" target="_blank" class="links">Privacy Policy</a>. 
+            listed by Chevignon on this site, you will receive emails with the latest news and updates.
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+    <div class="form-image">
+      <img src="https://picsum.photos/409/300">
+    </div>
+
+  </div>
+
+</div>
+
+<div class="cinta">
+  <p>Registrate y Obten 50% De Descuento</p>
+</div>
+<nav class="navbar navbar-expand-lg custom-navbar shadow-sm">
+<div class="container ">
+
+<a class="navbar-brand fw-bold" href="#">☰SPRIT</a>
 
 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
-<span class="navbar-toggler-icon"></span>
+<i class="fa fa-bars"></i>
 </button>
 
 <div class="collapse navbar-collapse" id="menu">
-
-<form class="d-flex mx-auto search-bar">
-<input class="form-control me-2" type="search" placeholder="Buscar productos...">
-<button class="btn btn-search"><i class="fa fa-search"></i></button>
-</form>
 
 <ul class="navbar-nav ms-auto">
 
@@ -40,7 +86,10 @@
 </li>
 
 <li class="nav-item">
-<a class="nav-link" href="#">Ofertas</a>
+<a class="nav-link-is login-bubble" href="#" id="loginBtn">
+<span>Iniciar sesión</span>
+<i class="fa fa-user"></i>
+</a>
 </li>
 
 <li class="nav-item">
@@ -55,24 +104,17 @@
 </div>
 </nav>
 
-
-<!-- HERO -->
 <div class="hero-section">
-  <h1>Descubre Productos Increíbles</h1>
-  <p>Calidad, estilo y los mejores precios en un solo lugar</p>
   <button class="btn hero-btn">Comprar ahora</button>
 </div>
 
-
-<!-- PRODUCTOS -->
 <section class="container products-section">
 
 <h2 class="section-title">Productos Destacados</h2>
 
 <div class="row g-4">
 
-<!-- PRODUCTO 1 -->
-<div class="col-md-4">
+<div class="col-12 col-sm-6 col-md-4 col-lg-3">
 <div class="card product-card">
 <img src="https://picsum.photos/400/300" class="card-img-top">
 <div class="card-body">
@@ -86,8 +128,7 @@
 </div>
 </div>
 
-<!-- PRODUCTO 2 -->
-<div class="col-md-4">
+<div class="col-12 col-sm-6 col-md-4 col-lg-3">
 <div class="card product-card">
 <img src="https://picsum.photos/401/300" class="card-img-top">
 <div class="card-body">
@@ -101,8 +142,7 @@
 </div>
 </div>
 
-<!-- PRODUCTO 3 -->
-<div class="col-md-4">
+<div class="col-12 col-sm-6 col-md-4 col-lg-3">
 <div class="card product-card">
 <img src="https://picsum.photos/402/300" class="card-img-top">
 <div class="card-body">
@@ -116,8 +156,7 @@
 </div>
 </div>
 
-<!-- PRODUCTO 4 -->
-<div class="col-md-4">
+<div class="col-12 col-sm-6 col-md-4 col-lg-3 hide-mobile">
 <div class="card product-card">
 <img src="https://picsum.photos/403/300" class="card-img-top">
 <div class="card-body">
@@ -131,8 +170,7 @@
 </div>
 </div>
 
-<!-- PRODUCTO 5 -->
-<div class="col-md-4">
+<div class="col-12 col-sm-6 col-md-4 col-lg-3 hide-mobile">
 <div class="card product-card">
 <img src="https://picsum.photos/404/300" class="card-img-top">
 <div class="card-body">
@@ -146,8 +184,7 @@
 </div>
 </div>
 
-<!-- PRODUCTO 6 -->
-<div class="col-md-4">
+<div class="col-12 col-sm-6 col-md-4 col-lg-3 hide-mobile">
 <div class="card product-card">
 <img src="https://picsum.photos/405/300" class="card-img-top">
 <div class="card-body">
@@ -161,11 +198,78 @@
 </div>
 </div>
 
+<div class="col-12 col-sm-6 col-md-4 col-lg-3 hide-mobile">
+<div class="card product-card">
+<img src="https://picsum.photos/406/300" class="card-img-top">
+<div class="card-body">
+<h5 class="card-title">Producto 7</h5>
+<p class="card-text">Descripción corta del producto.</p>
+<div class="product-footer">
+<span class="price">$89.99</span>
+<button class="btn btn-buy">Agregar</button>
+</div>
+</div>
+</div>
+</div>
+
+<div class="col-12 col-sm-6 col-md-4 col-lg-3 hide-mobile">
+<div class="card product-card">
+<img src="https://picsum.photos/407/300" class="card-img-top">
+<div class="card-body">
+<h5 class="card-title">Producto 8</h5>
+<p class="card-text">Descripción corta del producto.</p>
+<div class="product-footer">
+<span class="price">$99.99</span>
+<button class="btn btn-buy">Agregar</button>
+</div>
+</div>
+</div>
+</div>
+
 </div>
 </section>
 
+<div class="form-wrapper">
 
-<!-- FOOTER -->
+  <div class="form-container">
+
+    <div class="form-header">Obten hasta 40% de descuento</div>
+
+    <div class="form-subtext">
+      Sign up to be the first to know about new product launches and promotions.
+    </div>
+
+    <form>
+
+      <div class="form-row">
+        <input type="text" placeholder="Ingresa tu Correo">
+      </div>
+
+      <div class="form-row">
+        <input type="text" placeholder="Ingresa tu Numero">
+        <button class="subscribe-btn">Suscribirse</button>
+      </div>
+
+      <div class="form-optin">
+        <input type="checkbox">
+        <div class="legales">
+          By subscribing to our list, you understand and agree to the 
+          <a href="https://chevignon.us/pages/general-terms-and-conditions" target="_blank" class="links">General Terms and Conditions</a> 
+          and the 
+          <a href="https://chevignon.us/pages/privacy-policy" target="_blank" class="links">Privacy Policy</a>. 
+          listed by Chevignon on this site, you will receive emails with the latest news and updates.
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+  <div class="form-image">
+    <img src="https://picsum.photos/410/300">
+  </div>
+
+</div>
+
 <footer class="footer fade-footer" id="footer">
 
 <div class="container">
@@ -173,7 +277,7 @@
 <div class="row">
 
 <div class="col-md-4">
-<h5 class="footer-title">MiTienda</h5>
+<h5 class="footer-title">Mi Tienda</h5>
 <p>La mejor tienda online para encontrar productos increíbles.</p>
 </div>
 
@@ -184,6 +288,15 @@
 <li><a href="#">Productos</a></li>
 <li><a href="#">Ofertas</a></li>
 <li><a href="#">Contacto</a></li>
+</ul>
+</div>
+
+<div class="col-md-4">
+<h5 class="footer-title">Servicio al Cliente</h5>
+<ul class="footer-links">
+<li><a href="#">sxmxel05@gmail.com</a></li>
+<li><a href="#">322-2278437</a></li>
+<li><a href="#">Modulo de autogestion</a></li>
 </ul>
 </div>
 
@@ -201,7 +314,7 @@
 <hr>
 
 <div class="text-center">
-<p class="copy">© 2026 MiTienda</p>
+<p class="copy m-0">© 2026 MiTienda</p>
 </div>
 
 </div>

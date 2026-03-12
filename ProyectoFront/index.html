@@ -1,52 +1,268 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FullStack</title>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="/ProyectoFront/assets/css/index.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FullStack</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/ProyectoFront/assets/css/index.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 </head>
 
 <body>
   <div class="login-popup" id="loginPopup">
 
-  <span class="close-login" id="closeLogin">
-    <i class="fa fa-times"></i>
-  </span>
+    <span class="close-login" id="closeLogin">
+      <i class="fa fa-times"></i>
+    </span>
 
-  <div class="form-wrapper-login">
+    <div class="form-wrapper-login">
 
-    <div class="form-container-login">
+      <div class="form-container-login">
 
-      <div class="form-header-login">Obten hasta 40% de descuento</div>
+        <div class="form-header-login">Obten hasta 40% de descuento</div>
 
-      <div class="form-subtext-login">
-        Sign up to be the first to know about new product launches and promotions.
+        <div class="form-subtext-login">
+          Sign up to be the first to know about new product launches and promotions.
+        </div>
+
+        <form id="loginForm">
+
+          <div class="form-row-login">
+            <input type="text" placeholder="Ingresa tu Correo">
+          </div>
+
+          <div class="form-row-login">
+            <input type="text" placeholder="Ingresa tu Numero">
+            <button class="is-btn-login">Suscribirse</button>
+          </div>
+
+          <div class="form-optin-login">
+            <div class="links-login">
+              <a href="https://chevignon.us/pages/general-terms-and-conditions" target="_blank" class="links">¿Olvido su contraseña?</a>
+            <a href="https://chevignon.us/pages/privacy-policy" target="_blank" class="links Variante">¿No estas registrado?</a>
+            </div>
+          </div>
+
+        </form>
       </div>
 
-      <form id="loginForm">
+      <div class="form-image">
+        <img src="https://picsum.photos/409/300">
+      </div>
 
-        <div class="form-row-login">
+    </div>
+
+  </div>
+
+  <div class="cinta">
+    <p>Registrate y Obten Descuentos Inolvidables</p>
+  </div>
+  <nav class="navbar navbar-expand-lg custom-navbar shadow-sm">
+    <div class="container ">
+
+      <a class="navbar-brand fw-bold" href="#">☰SPRIT</a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+        <i class="fa fa-bars"></i>
+      </button>
+
+      <div class="collapse navbar-collapse" id="menu">
+
+        <ul class="navbar-nav ms-auto">
+
+          <li class="nav-item">
+            <a class="nav-link active" href="#">Inicio</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="#">Productos</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link-is login-bubble" href="#" id="loginBtn">
+              <span>Iniciar sesión</span>
+              <i class="fa fa-user"></i>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="fa fa-shopping-cart"></i>
+            </a>
+          </li>
+
+        </ul>
+
+      </div>
+    </div>
+  </nav>
+
+  <div class="hero-section">
+    <button class="btn hero-btn">Comprar ahora</button>
+  </div>
+
+  <div class="hero-images">
+    <img src="https://picsum.photos/800/400" alt="Hero Image" class="imagenes-h">
+    <img src="https://picsum.photos/800/400" alt="Hero Image" class="imagenes-h">
+    <img src="https://picsum.photos/800/400" alt="Hero Image" class="imagenes-h">
+  </div>
+
+  <section class="container products-section">
+
+    <h2 class="section-title">Productos Destacados</h2>
+
+    <div class="row g-4">
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="card product-card">
+          <img src="https://picsum.photos/400/300" class="card-img-top">
+          <div class="card-body">
+            <h5 class="card-title">Producto 1</h5>
+            <p class="card-text">Descripción corta del producto.</p>
+            <div class="product-footer">
+              <span class="price">$29.99</span>
+              <button class="btn btn-buy">Agregar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="card product-card">
+          <img src="https://picsum.photos/401/300" class="card-img-top">
+          <div class="card-body">
+            <h5 class="card-title">Producto 2</h5>
+            <p class="card-text">Descripción corta del producto.</p>
+            <div class="product-footer">
+              <span class="price">$39.99</span>
+              <button class="btn btn-buy">Agregar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="card product-card">
+          <img src="https://picsum.photos/402/300" class="card-img-top">
+          <div class="card-body">
+            <h5 class="card-title">Producto 3</h5>
+            <p class="card-text">Descripción corta del producto.</p>
+            <div class="product-footer">
+              <span class="price">$49.99</span>
+              <button class="btn btn-buy">Agregar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 hide-mobile">
+        <div class="card product-card">
+          <img src="https://picsum.photos/403/300" class="card-img-top">
+          <div class="card-body">
+            <h5 class="card-title">Producto 4</h5>
+            <p class="card-text">Descripción corta del producto.</p>
+            <div class="product-footer">
+              <span class="price">$59.99</span>
+              <button class="btn btn-buy">Agregar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 hide-mobile">
+        <div class="card product-card">
+          <img src="https://picsum.photos/404/300" class="card-img-top">
+          <div class="card-body">
+            <h5 class="card-title">Producto 5</h5>
+            <p class="card-text">Descripción corta del producto.</p>
+            <div class="product-footer">
+              <span class="price">$69.99</span>
+              <button class="btn btn-buy">Agregar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 hide-mobile">
+        <div class="card product-card">
+          <img src="https://picsum.photos/405/300" class="card-img-top">
+          <div class="card-body">
+            <h5 class="card-title">Producto 6</h5>
+            <p class="card-text">Descripción corta del producto.</p>
+            <div class="product-footer">
+              <span class="price">$79.99</span>
+              <button class="btn btn-buy">Agregar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 hide-mobile">
+        <div class="card product-card">
+          <img src="https://picsum.photos/406/300" class="card-img-top">
+          <div class="card-body">
+            <h5 class="card-title">Producto 7</h5>
+            <p class="card-text">Descripción corta del producto.</p>
+            <div class="product-footer">
+              <span class="price">$89.99</span>
+              <button class="btn btn-buy">Agregar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 hide-mobile">
+        <div class="card product-card">
+          <img src="https://picsum.photos/407/300" class="card-img-top">
+          <div class="card-body">
+            <h5 class="card-title">Producto 8</h5>
+            <p class="card-text">Descripción corta del producto.</p>
+            <div class="product-footer">
+              <span class="price">$99.99</span>
+              <button class="btn btn-buy">Agregar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="form-wrapper">
+
+    <div class="form-container">
+
+      <div class="form-header">Registrate y Unete a Nuestro Club</div>
+
+      <div class="form-subtext">
+        Registrate para no perderte de nuestras ofertas exclusivas y novedades.
+      </div>
+
+      <form>
+
+        <div class="form-row">
           <input type="text" placeholder="Ingresa tu Correo">
         </div>
-      
-        <div class="form-row-login">
+
+        <div class="form-row">
           <input type="text" placeholder="Ingresa tu Numero">
-          <button class="is-btn-login">Suscribirse</button>
+          <button class="subscribe-btn">Suscribirse</button>
         </div>
 
-        <div class="form-optin-login">
+        <div class="form-optin">
           <input type="checkbox">
           <div class="legales">
-            By subscribing to our list, you understand and agree to the 
-            <a href="https://chevignon.us/pages/general-terms-and-conditions" target="_blank" class="links">General Terms and Conditions</a> 
-            and the 
-            <a href="https://chevignon.us/pages/privacy-policy" target="_blank" class="links">Privacy Policy</a>. 
-            listed by Chevignon on this site, you will receive emails with the latest news and updates.
+            Al suscribirte a nuestra lista, entiendes y aceptas los
+            <a href="https://chevignon.us/pages/general-terms-and-conditions" target="_blank" class="links">Términos y
+              Condiciones Generales</a>
+            y la
+            <a href="https://chevignon.us/pages/privacy-policy" target="_blank" class="links">Política de Privacidad</a>
+            establecidos por ESPRIT en este sitio. Recibirás correos electrónicos con las últimas noticias y
+            actualizaciones.
           </div>
         </div>
 
@@ -54,275 +270,65 @@
     </div>
 
     <div class="form-image">
-      <img src="https://picsum.photos/409/300">
+      <img src="https://picsum.photos/410/300">
     </div>
 
   </div>
 
-</div>
+  <footer class="footer fade-footer" id="footer">
 
-<div class="cinta">
-  <p>Registrate y Obten 50% De Descuento</p>
-</div>
-<nav class="navbar navbar-expand-lg custom-navbar shadow-sm">
-<div class="container ">
+    <div class="container">
 
-<a class="navbar-brand fw-bold" href="#">☰SPRIT</a>
+      <div class="row">
 
-<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
-<i class="fa fa-bars"></i>
-</button>
-
-<div class="collapse navbar-collapse" id="menu">
-
-<ul class="navbar-nav ms-auto">
-
-<li class="nav-item">
-<a class="nav-link active" href="#">Inicio</a>
-</li>
-
-<li class="nav-item">
-<a class="nav-link" href="#">Productos</a>
-</li>
-
-<li class="nav-item">
-<a class="nav-link-is login-bubble" href="#" id="loginBtn">
-<span>Iniciar sesión</span>
-<i class="fa fa-user"></i>
-</a>
-</li>
-
-<li class="nav-item">
-<a class="nav-link" href="#">
-<i class="fa fa-shopping-cart"></i>
-</a>
-</li>
-
-</ul>
-
-</div>
-</div>
-</nav>
-
-<div class="hero-section">
-  <button class="btn hero-btn">Comprar ahora</button>
-</div>
-
-<section class="container products-section">
-
-<h2 class="section-title">Productos Destacados</h2>
-
-<div class="row g-4">
-
-<div class="col-12 col-sm-6 col-md-4 col-lg-3">
-<div class="card product-card">
-<img src="https://picsum.photos/400/300" class="card-img-top">
-<div class="card-body">
-<h5 class="card-title">Producto 1</h5>
-<p class="card-text">Descripción corta del producto.</p>
-<div class="product-footer">
-<span class="price">$29.99</span>
-<button class="btn btn-buy">Agregar</button>
-</div>
-</div>
-</div>
-</div>
-
-<div class="col-12 col-sm-6 col-md-4 col-lg-3">
-<div class="card product-card">
-<img src="https://picsum.photos/401/300" class="card-img-top">
-<div class="card-body">
-<h5 class="card-title">Producto 2</h5>
-<p class="card-text">Descripción corta del producto.</p>
-<div class="product-footer">
-<span class="price">$39.99</span>
-<button class="btn btn-buy">Agregar</button>
-</div>
-</div>
-</div>
-</div>
-
-<div class="col-12 col-sm-6 col-md-4 col-lg-3">
-<div class="card product-card">
-<img src="https://picsum.photos/402/300" class="card-img-top">
-<div class="card-body">
-<h5 class="card-title">Producto 3</h5>
-<p class="card-text">Descripción corta del producto.</p>
-<div class="product-footer">
-<span class="price">$49.99</span>
-<button class="btn btn-buy">Agregar</button>
-</div>
-</div>
-</div>
-</div>
-
-<div class="col-12 col-sm-6 col-md-4 col-lg-3 hide-mobile">
-<div class="card product-card">
-<img src="https://picsum.photos/403/300" class="card-img-top">
-<div class="card-body">
-<h5 class="card-title">Producto 4</h5>
-<p class="card-text">Descripción corta del producto.</p>
-<div class="product-footer">
-<span class="price">$59.99</span>
-<button class="btn btn-buy">Agregar</button>
-</div>
-</div>
-</div>
-</div>
-
-<div class="col-12 col-sm-6 col-md-4 col-lg-3 hide-mobile">
-<div class="card product-card">
-<img src="https://picsum.photos/404/300" class="card-img-top">
-<div class="card-body">
-<h5 class="card-title">Producto 5</h5>
-<p class="card-text">Descripción corta del producto.</p>
-<div class="product-footer">
-<span class="price">$69.99</span>
-<button class="btn btn-buy">Agregar</button>
-</div>
-</div>
-</div>
-</div>
-
-<div class="col-12 col-sm-6 col-md-4 col-lg-3 hide-mobile">
-<div class="card product-card">
-<img src="https://picsum.photos/405/300" class="card-img-top">
-<div class="card-body">
-<h5 class="card-title">Producto 6</h5>
-<p class="card-text">Descripción corta del producto.</p>
-<div class="product-footer">
-<span class="price">$79.99</span>
-<button class="btn btn-buy">Agregar</button>
-</div>
-</div>
-</div>
-</div>
-
-<div class="col-12 col-sm-6 col-md-4 col-lg-3 hide-mobile">
-<div class="card product-card">
-<img src="https://picsum.photos/406/300" class="card-img-top">
-<div class="card-body">
-<h5 class="card-title">Producto 7</h5>
-<p class="card-text">Descripción corta del producto.</p>
-<div class="product-footer">
-<span class="price">$89.99</span>
-<button class="btn btn-buy">Agregar</button>
-</div>
-</div>
-</div>
-</div>
-
-<div class="col-12 col-sm-6 col-md-4 col-lg-3 hide-mobile">
-<div class="card product-card">
-<img src="https://picsum.photos/407/300" class="card-img-top">
-<div class="card-body">
-<h5 class="card-title">Producto 8</h5>
-<p class="card-text">Descripción corta del producto.</p>
-<div class="product-footer">
-<span class="price">$99.99</span>
-<button class="btn btn-buy">Agregar</button>
-</div>
-</div>
-</div>
-</div>
-
-</div>
-</section>
-
-<div class="form-wrapper">
-
-  <div class="form-container">
-
-    <div class="form-header">Obten hasta 40% de descuento</div>
-
-    <div class="form-subtext">
-      Sign up to be the first to know about new product launches and promotions.
-    </div>
-
-    <form>
-
-      <div class="form-row">
-        <input type="text" placeholder="Ingresa tu Correo">
-      </div>
-
-      <div class="form-row">
-        <input type="text" placeholder="Ingresa tu Numero">
-        <button class="subscribe-btn">Suscribirse</button>
-      </div>
-
-      <div class="form-optin">
-        <input type="checkbox">
-        <div class="legales">
-          By subscribing to our list, you understand and agree to the 
-          <a href="https://chevignon.us/pages/general-terms-and-conditions" target="_blank" class="links">General Terms and Conditions</a> 
-          and the 
-          <a href="https://chevignon.us/pages/privacy-policy" target="_blank" class="links">Privacy Policy</a>. 
-          listed by Chevignon on this site, you will receive emails with the latest news and updates.
+        <div class="col-md-4">
+          <h5 class="footer-title">Mi Tienda</h5>
+          <p>La mejor tienda online para encontrar productos increíbles.</p>
         </div>
+
+        <div class="col-md-4">
+          <h5 class="footer-title">Enlaces</h5>
+          <ul class="footer-links">
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#">Productos</a></li>
+            <li><a href="#">Ofertas</a></li>
+            <li><a href="#">Contacto</a></li>
+          </ul>
+        </div>
+
+        <div class="col-md-4">
+          <h5 class="footer-title">Servicio al Cliente</h5>
+          <ul class="footer-links">
+            <li><a href="#">sxmxel05@gmail.com</a></li>
+            <li><a href="#">322-2278437</a></li>
+            <li><a href="#">Modulo de autogestion</a></li>
+          </ul>
+        </div>
+
+        <div class="col-md-4">
+          <h5 class="footer-title">Síguenos</h5>
+          <div class="social-icons">
+            <i class="fab fa-facebook"></i>
+            <i class="fab fa-instagram"></i>
+            <i class="fab fa-twitter"></i>
+          </div>
+        </div>
+
       </div>
 
-    </form>
-  </div>
+      <hr>
 
-  <div class="form-image">
-    <img src="https://picsum.photos/410/300">
-  </div>
+      <div class="text-center">
+        <p class="copy m-0">© 2026 MiTienda</p>
+      </div>
 
-</div>
+    </div>
 
-<footer class="footer fade-footer" id="footer">
+  </footer>
 
-<div class="container">
-
-<div class="row">
-
-<div class="col-md-4">
-<h5 class="footer-title">Mi Tienda</h5>
-<p>La mejor tienda online para encontrar productos increíbles.</p>
-</div>
-
-<div class="col-md-4">
-<h5 class="footer-title">Enlaces</h5>
-<ul class="footer-links">
-<li><a href="#">Inicio</a></li>
-<li><a href="#">Productos</a></li>
-<li><a href="#">Ofertas</a></li>
-<li><a href="#">Contacto</a></li>
-</ul>
-</div>
-
-<div class="col-md-4">
-<h5 class="footer-title">Servicio al Cliente</h5>
-<ul class="footer-links">
-<li><a href="#">sxmxel05@gmail.com</a></li>
-<li><a href="#">322-2278437</a></li>
-<li><a href="#">Modulo de autogestion</a></li>
-</ul>
-</div>
-
-<div class="col-md-4">
-<h5 class="footer-title">Síguenos</h5>
-<div class="social-icons">
-<i class="fab fa-facebook"></i>
-<i class="fab fa-instagram"></i>
-<i class="fab fa-twitter"></i>
-</div>
-</div>
-
-</div>
-
-<hr>
-
-<div class="text-center">
-<p class="copy m-0">© 2026 MiTienda</p>
-</div>
-
-</div>
-
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="/ProyectoFront/assets/js/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/ProyectoFront/assets/js/main.js"></script>
 
 </body>
+
 </html>

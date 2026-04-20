@@ -2,7 +2,8 @@
   --black: #0f0f0f;
   --white: #ffffff;
   --orange: #6d0000;
-  --orange-hover: #ff8787;
+  --orange-hover: #ca4949ce;
+  --btn-hover: #f0d3d33d;
   --gray: #414141;
   --shadow-soft: 0 10px 25px rgba(0, 0, 0, 0.301);
   --shadow-medium: 0 15px 35px rgb(0, 0, 0);
@@ -40,7 +41,7 @@ body {
 }
 
 .Variante{
-  padding-left: 138px;
+  padding-left: 124px;
 }
 
 @media (max-width: 768px) {
@@ -191,9 +192,9 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-image: url('https://esprit.vtexassets.com/assets/vtex.file-manager-graphql/images/6adc715c-a7c0-4845-aca8-3b04f05c98be___39c276076eb09e1a65cde4ffffe49128.jpg');
+  background-image: url('/ProyectoFront/assets/images/FondoPrincipal.webp');
   background-size: cover;
-  background-position: center;
+  background-position: top;
   background-repeat: no-repeat;
 }
 
@@ -211,7 +212,7 @@ body {
 }
 
 .hero-btn:hover {
-  background: var(--orange-hover);
+  background: var(--btn-hover);
   transform: translateY(-3px);
   color: #ffffff;
   box-shadow: var(--shadow-soft);
@@ -237,15 +238,15 @@ body {
 .hero-images {
   display: flex;
   justify-content: center;
-  gap: 22px;
-  margin-top: 40px;
+  gap: 15px;
+  margin-top: 25px;
   flex-wrap: wrap;
 }
 
 .imagenes-h {
   width: 100%;
-  max-width: 350px; 
-  height: 450px; 
+  max-width: 380px; 
+  height: 495px; 
   object-fit: cover; 
   display: block;
 }
@@ -307,9 +308,8 @@ body {
 
 .product-card img {
   width: 100%;
-  aspect-ratio: 1/1;
   object-fit: cover;
-  transition: 0.45s;
+  transition: 0.35s;
 }
 
 .product-card:hover img {
@@ -317,12 +317,13 @@ body {
 }
 
 .product-card .card-body {
-  padding: 24px;
+  padding: 30px 15px;
 }
 
 .card-title {
   font-weight: 600;
   margin-bottom: 8px;
+  font-size: 1rem;
 }
 
 .card-text {
@@ -365,8 +366,7 @@ body {
   align-items: center;
   justify-content: space-between;
   background: #6666661a;
-  border-radius: 15px;
-  padding: 50px;
+  padding: 40px;
   max-width: 1200px;
   box-shadow: 0 4px 12px #0f0f0f49;
   margin: 80px auto;
@@ -417,12 +417,12 @@ body {
 }
 
 .form-image {
-  width: 48%;
+  width: 55%;
 }
 
 .form-image img {
   width: 100%;
-  border-radius: 12px;
+  border-radius: 5px;
 }
  .form-wrapper-login {
   display: flex;
@@ -690,3 +690,34 @@ body {
   }
 
 }
+
+.account-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.account-popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  min-width: 250px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+.account-icon {
+  font-size: 1.5em;
+}
+.account-icon i {
+  color: #333;
+}
+.account-icon:hover i {
+  color: #007bff;
+}
+

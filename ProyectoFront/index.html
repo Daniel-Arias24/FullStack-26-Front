@@ -1,24 +1,30 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ESPRIT</title>
-  <link rel="icon" type="image/png" href="https://cdn.aptoide.com/imgs/f/1/1/f11d378a1b576edc07805780a94f5ad2_fgraphic.png">
+  <link rel="icon" type="image/png"
+    href="https://cdn.aptoide.com/imgs/f/1/1/f11d378a1b576edc07805780a94f5ad2_fgraphic.png">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/ProyectoFront/assets/css/index.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
+
 <body>
   <div class="login-popup" id="loginPopup">
     <span class="close-login" id="closeLogin">
       <i class="fa fa-times"></i>
     </span>
     <div class="form-wrapper-login">
+      <div class="form-image">
+        <img src="/ProyectoFront/assets/images/iniciosesion.webp">
+      </div>
       <div class="form-container-login">
-        <div class="form-header-login">Obten hasta 40% de descuento</div>
+        <div class="form-header-login">Obten hasta 25% de descuento</div>
         <div class="form-subtext-login">
-          Sign up to be the first to know about new product launches and promotions.
+          Bienvenido de nuevo, inicia sesión para acceder a tus ofertas exclusivas y novedades.
         </div>
         <form id="loginForm">
           <div class="form-row-login">
@@ -38,23 +44,21 @@
         </form>
 
 
-        
+
         <div id="forgotView" style="display:none;">
-  <div class="form-header-login">Recuperar contraseña</div>
-  <div class="form-subtext-login">Ingresa tu correo y te enviaremos un enlace de recuperación.</div>
-  <div class="form-row-login">
-    <input type="email" id="forgotEmail" placeholder="Ingresa tu correo">
-  </div>
-  <button class="is-btn-login" id="sendResetBtn" style="width:100%; margin-top:8px;">Enviar correo</button>
-  <small id="forgotMsg" style="display:block; margin-top:10px; font-size:13px;"></small>
-  <div class="links-login" style="margin-top:12px;">
-    <a href="#" class="links" id="backToLogin">← Volver al login</a>
-  </div>
-</div>
+          <div class="form-header-login">Recuperar contraseña</div>
+          <div class="form-subtext-login">Ingresa tu correo y te enviaremos un enlace de recuperación.</div>
+          <div class="form-row-login">
+            <input type="email" id="forgotEmail" placeholder="Ingresa tu correo">
+          </div>
+          <button class="is-btn-login" id="sendResetBtn" style="width:100%; margin-top:8px;">Enviar correo</button>
+          <small id="forgotMsg" style="display:block; margin-top:10px; font-size:13px;"></small>
+          <div class="links-login" style="margin-top:12px;">
+            <a href="#" class="links" id="backToLogin">← Volver al login</a>
+          </div>
+        </div>
       </div>
-      <div class="form-image">
-        <img src="https://picsum.photos/409/300">
-      </div>
+
     </div>
   </div>
   <div class="account-popup" id="accountPopup">
@@ -63,8 +67,19 @@
       <button id="logoutBtn" class="btn btn-danger">Cerrar sesión</button>
     </div>
   </div>
+
+  <div class="checkout-popup" id="checkoutPopup">
+    <div class="checkout-popup-content">
+      <h3>Debes iniciar sesión</h3>
+      <p>Para continuar al checkout necesitas iniciar sesión.</p>
+
+      <button id="goLoginBtn" class="btn btn-dark">
+        Iniciar sesión
+      </button>
+    </div>
+  </div>
   <div class="cinta">
-    <p>Registrate y Obten Descuentos Inolvidables</p>
+    <p>Registrate y Obten 25% de Descuento en Toda la Tienda</p>
   </div>
   <nav class="navbar navbar-expand-lg custom-navbar shadow-sm">
     <div class="container ">
@@ -78,9 +93,6 @@
             <a class="nav-link active" href="/ProyectoFront/index.html">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/ProyectoFront/pages/registroVenta.html">Admin</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link-is login-bubble" href="#" id="loginBtn">
               <span>Iniciar sesión</span>
               <i class="fa fa-user"></i>
@@ -90,8 +102,8 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/ProyectoFront/pages/checkout.html">
-              <i class="fa fa-shopping-cart"></i>
+            <a class="nav-link" href="/ProyectoFront/pages/checkout.html" id="cartLink">
+              <i class="fa fa-shopping-cart "></i>
             </a>
           </li>
         </ul>
@@ -107,7 +119,7 @@
     <img src="/ProyectoFront/assets/images/IMAG 3.jpg" alt="Hero Image" class="imagenes-h">
   </div>
   <section class="container products-section">
-    <h2 class="section-title">Productos Destacados</h2>
+    <h2 id="productsSection" class="section-title">Productos Destacados</h2>
     <div class="row g-4">
       <div class="col-12 col-sm-6 col-md-4 col-lg-3">
         <div class="card product-card">
@@ -116,7 +128,10 @@
             <h5 class="card-title">Camisa manga larga estampada cuello redondo</h5>
             <div class="product-footer">
               <span class="price">$249.900</span>
-              <button class="btn btn-buy">Agregar</button>
+              <button class="btn btn-buy" data-nombre="Producto 1" data-precio="29.99"
+                data-img="/ProyectoFront/assets/images/oneprenda.webp">
+                Agregar
+              </button>
             </div>
           </div>
         </div>
@@ -128,7 +143,10 @@
             <h5 class="card-title">Pantalón palazzo tobillero de caída fluida de color negro</h5>
             <div class="product-footer">
               <span class="price">$390.990</span>
-              <button class="btn btn-buy">Agregar</button>
+              <button class="btn btn-buy" data-nombre="Producto 1" data-precio="29.99"
+                data-img="/ProyectoFront/assets/images/twoprenda.webp">
+                Agregar
+              </button>
             </div>
           </div>
         </div>
@@ -140,7 +158,10 @@
             <h5 class="card-title">Suéter tejido de cuello redondo con diseño floral</h5>
             <div class="product-footer">
               <span class="price">$420.990</span>
-              <button class="btn btn-buy">Agregar</button>
+              <button class="btn btn-buy" data-nombre="Producto 1" data-precio="29.99"
+                data-img="/ProyectoFront/assets/images/thereprenda.webp">
+                Agregar
+              </button>
             </div>
           </div>
         </div>
@@ -150,10 +171,13 @@
           <img src="/ProyectoFront/assets/images/fourprenda.webp" class="card-img-top">
           <div class="card-body">
             <h5 class="card-title">Camiseta tejida tipo polo cuello en V manga larga
-</h5>
+            </h5>
             <div class="product-footer">
               <span class="price">$289.900</span>
-              <button class="btn btn-buy">Agregar</button>
+              <button class="btn btn-buy" data-nombre="Producto 1" data-precio="29.99"
+                data-img="/ProyectoFront/assets/images/fourprenda.webp">
+                Agregar
+              </button>
             </div>
           </div>
         </div>
@@ -163,10 +187,13 @@
           <img src="/ProyectoFront/assets/images/fiveprenda.webp" class="card-img-top">
           <div class="card-body">
             <h5 class="card-title">Jean liviano silueta barrel con costuras diagonales
-</h5>
+            </h5>
             <div class="product-footer">
               <span class="price">$340.99</span>
-              <button class="btn btn-buy">Agregar</button>
+              <button class="btn btn-buy" data-nombre="Producto 1" data-precio="29.99"
+                data-img="/ProyectoFront/assets/images/fiveprenda.webp">
+                Agregar
+              </button>
             </div>
           </div>
         </div>
@@ -176,10 +203,13 @@
           <img src="/ProyectoFront/assets/images/sixprenda.webp" class="card-img-top">
           <div class="card-body">
             <h5 class="card-title">Capa estilo trench con solapas y botones de contraste
-</h5>
+            </h5>
             <div class="product-footer">
               <span class="price">$105.000</span>
-              <button class="btn btn-buy">Agregar</button>
+              <button class="btn btn-buy" data-nombre="Producto 1" data-precio="29.99"
+                data-img="/ProyectoFront/assets/images/sixprenda.webp">
+                Agregar
+              </button>
             </div>
           </div>
         </div>
@@ -191,7 +221,10 @@
             <h5 class="card-title">Vestido largo manga sisa de silueta fluida y suave</h5>
             <div class="product-footer">
               <span class="price">$320.000</span>
-              <button class="btn btn-buy">Agregar</button>
+              <button class="btn btn-buy" data-nombre="Producto 1" data-precio="29.99"
+                data-img="/ProyectoFront/assets/images/sevenprenda.webp">
+                Agregar
+              </button>
             </div>
           </div>
         </div>
@@ -203,14 +236,17 @@
             <h5 class="card-title">Trench con cinturón largo medio de color verde</h5>
             <div class="product-footer">
               <span class="price">$189.000</span>
-              <button  id="registro" class="btn btn-buy">Agregar</button>
+              <button class="btn btn-buy" data-nombre="Producto 1" data-precio="29.99"
+                data-img=/ProyectoFront/assets/images/eightprenda.webp">
+                Agregar
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
   </section>
-  <div class="form-wrapper">
+  <div class="form-wrapper" id="registro">
     <div class="form-container" id="registro">
       <div class="form-header">Registrate y Unete a Nuestro Club</div>
       <div class="form-subtext">
@@ -225,13 +261,23 @@
           <button class="subscribe-btn" type="submit">Registrarme</button>
         </div>
         <small id="registerMsg" style="display:block; margin-top:10px; font-size:13px;"></small>
-        <div class="form-optin">
-          <input type="checkbox">
-          <div class="legales">
-            Al suscribirte a nuestra lista, entiendes y aceptas los Términos y Condiciones Generales y la Política de Privacidad establecidos por ESPRIT en este sitio. Recibirás correos electrónicos con las últimas noticias y actualizaciones.
+      </form>
+
+      <div class="discount-success" id="discountSuccess" style="display:none;">
+
+        <div class="discount-right">
+          <h2>¡Registro exitoso!</h2>
+
+          <p>
+            Usa este código en tu compra y obtén 25% OFF
+          </p>
+
+          <div class="coupon-code">
+            DESCUENTO25
           </div>
         </div>
-      </form>
+
+      </div>
     </div>
     <div class="form-image">
       <img src="/ProyectoFront/assets/images/BANNER 2.jpg">
@@ -247,18 +293,15 @@
         <div class="col-md-4">
           <h5 class="footer-title">Enlaces</h5>
           <ul class="footer-links">
-            <li><a href="#">Inicio</a></li>
-            <li><a href="#">Productos</a></li>
-            <li><a href="#">Ofertas</a></li>
-            <li><a href="#">Contacto</a></li>
+            <li><a href="#productsSection">Productos</a></li>
+            <li><a href="/ProyectoFront/pages/registroVenta.html" id="adminBtn">Admin</a></li>
           </ul>
         </div>
         <div class="col-md-4">
           <h5 class="footer-title">Servicio al Cliente</h5>
           <ul class="footer-links">
-            <li><a href="#">sxmxel05@gmail.com</a></li>
-            <li><a href="#">322-2278437</a></li>
-            <li><a href="#">Modulo de autogestion</a></li>
+            <li>sxmxel05@gmail.com</li>
+            <li>+57 322-2278437</li>
           </ul>
         </div>
         <div class="col-md-4">
@@ -276,9 +319,33 @@
       </div>
     </div>
   </footer>
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <div class="admin-popup" id="adminPopup">
+    <div class="admin-box">
+      <span class="close-admin" id="closeAdmin">×</span>
+      <div class="admin-image">
+        <img src="/ProyectoFront/assets/images/AdminPanel.png">
+      </div>
+      <div class="admin-content">
+        <div class="admin-tag">
+          acceso restringido
+        </div>
+        <h2>Panel Admin</h2>
+        <p class="admin-text">
+          Ingresa las credenciales autorizadas para acceder al panel de administración.
+        </p>
+        <input type="email" id="adminEmail" placeholder="Correo administrador">
+        <input type="password" id="adminPassword" placeholder="Contraseña">
+        <button id="adminLoginBtn">
+          Entrar al panel
+        </button>
+        <small id="adminMsg"></small>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="/ProyectoFront/assets/js/main.js"></script>
 
 </body>
+
 </html>

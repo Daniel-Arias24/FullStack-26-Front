@@ -41,12 +41,28 @@ body {
 }
 
 .Variante{
-  padding-left: 124px;
+  padding-left: 86px;
+}
+.fa-lg{
+  vertical-align: 0 !important;
+  font-size: 25px !important;
 }
 
+.fa-user-circle:before {
+  color: rgb(0, 0, 0) !important;
+  transition: color 0.3s ease;
+}
+
+.account-icon:hover .fa-user-circle:before {
+  color: rgb(77, 2, 2) !important;
+}
+
+.account-icon{
+  font-size: 1.3rem !important;
+}
 @media (max-width: 768px) {
   .Variante{
-    padding-left: 69px;
+    padding-left: 55px;
   }
 }
 
@@ -56,10 +72,10 @@ body {
 
 .close-login {
   position: absolute;
-  top: 10px;
-  right: 15px;
+  top: 100px;
+  right: 425px;
   font-size: 24px;
-  color: rgb(0, 0, 0);
+  color: var(--orange);
   cursor: pointer;
 }
 
@@ -430,8 +446,8 @@ body {
   justify-content: space-between;
   background: #ffffff;
   border-radius: 15px;
-  padding: 40px;
-  max-width: 900px;
+  padding: 40px 30px;
+  max-width: 743px;
   width: 100%;
   box-shadow: 0 4px 12px #0f0f0f49;
   gap: 40px;
@@ -441,7 +457,7 @@ body {
 }
 
 .form-container-login {
-  width: 50%;
+  width: 70%;
 }
 
 .form-header-login {
@@ -469,6 +485,44 @@ body {
   border-radius: 4px;
 }
 
+.discount-success{
+  display:flex;
+  width:100%;
+  min-height:320px;
+  background:white;
+  overflow:hidden;
+}
+
+.discount-right{
+  width:100%;
+  padding:40px;
+  display:flex;
+  align-items: center;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.discount-right h2{
+  font-size:32px;
+  margin-bottom:15px;
+}
+
+.discount-right p{
+  margin-bottom:20px;
+  color:#555;
+}
+
+.coupon-code{
+  background:black;
+  color:white;
+  padding:18px;
+  font-size:28px;
+  font-weight:bold;
+  letter-spacing:3px;
+  text-align:center;
+  width:fit-content;
+}
+
 .is-btn-login {
   background: var(--orange);
   color: white;
@@ -493,6 +547,125 @@ body {
   border-radius: 12px;
 }
 
+.admin-popup{
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0,0,0,0.65);
+
+  display: none;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 9999;
+}
+
+.admin-box{
+  width: 750px;
+  height: 420px;
+
+  background: #fff;
+
+  border-radius: 20px;
+
+  overflow: hidden;
+
+  display: flex;
+
+  position: relative;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+/* lado imagen */
+.admin-image{
+  width: 45%;
+  height: 100%;
+}
+
+.admin-image img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* lado formulario */
+.admin-content{
+  width: 55%;
+
+  padding: 45px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  background: #f8f8f8;
+}
+
+.admin-tag{
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: #777;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.admin-content h2{
+  font-size: 34px;
+  color: #000000;
+  margin-bottom: 10px;
+}
+
+.admin-text{
+  color: #000000;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.admin-content input{
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 14px;
+  border: 1px solid #d8d8d8;
+  border-radius: 5px;
+  background: rgb(255, 239, 239);
+}
+
+.admin-content input:focus{
+  outline: none;
+  border-color: black;
+}
+
+.admin-content button{
+  padding: 14px;
+  border: none;
+  border-radius: 15px;
+  background: var(--orange);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.admin-content button:hover{
+  background: #c04c4c;
+}
+
+.close-admin{
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 30px;
+  color: rgb(0, 0, 0);
+  z-index: 10;
+  cursor: pointer;
+}
+
+#adminMsg{
+  margin-top: 10px;
+  font-size: 14px;
+  color: red;
+}
 
 @media (max-width: 768px) {
 
@@ -689,6 +862,48 @@ body {
     display: none;
   }
 
+}
+.checkout-popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: none;
+  justify-content: flex-end;
+  align-items: stretch;
+  z-index: 9999;
+}
+
+.checkout-popup-content {
+  text-align: -webkit-center;
+  width: 25%;
+  min-width: 320px;
+  height: 100vh;
+  background: white;
+  padding: 40px 30px;
+  box-shadow: -5px 0 20px rgba(0,0,0,0.2);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  transform: translateX(100%);
+  animation: slideFromRight 0.4s ease forwards;
+}
+
+@keyframes slideFromRight {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .checkout-popup-content {
+    width: 85%;
+  }
 }
 
 .account-popup {

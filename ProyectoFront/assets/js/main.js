@@ -1,6 +1,56 @@
 // Esperamos que el DOM esté listo antes de hacer cualquier cosa
 document.addEventListener("DOMContentLoaded", function () {
 
+  const adminBtn = document.getElementById("adminBtn");
+const adminPopup = document.getElementById("adminPopup");
+const closeAdmin = document.getElementById("closeAdmin");
+const adminLoginBtn = document.getElementById("adminLoginBtn");
+const adminMsg = document.getElementById("adminMsg");
+
+const ADMIN_EMAIL = "sxmxel05@gmail.com";
+const ADMIN_PASSWORD = "cesde2026";
+
+adminBtn.addEventListener("click", function(e){
+
+  e.preventDefault();
+
+  adminPopup.style.display = "flex";
+
+});
+
+closeAdmin.addEventListener("click", function(){
+
+  adminPopup.style.display = "none";
+
+});
+
+adminLoginBtn.addEventListener("click", function(){
+
+  const email =
+    document.getElementById("adminEmail").value.trim();
+
+  const password =
+    document.getElementById("adminPassword").value.trim();
+
+  if(
+    email === ADMIN_EMAIL &&
+    password === ADMIN_PASSWORD
+  ){
+
+    window.location.href =
+      "/ProyectoFront/pages/registroVenta.html";
+
+  } else {
+
+    adminMsg.style.color = "red";
+
+    adminMsg.textContent =
+      "Credenciales incorrectas";
+
+  }
+
+});
+
   // Inicializar EmailJS de forma segura
   if (typeof emailjs !== "undefined") {
     emailjs.init("gykPIl-Z4OsO2QkFW");
@@ -71,10 +121,6 @@ if (localStorage.getItem("loggedInUser")) {
       e.preventDefault();
       const email = loginEmailInput?.value.trim() || "";
       const password = loginPasswordInput?.value || "";
-      localStorage.setItem("loggedInUser", email);
-loginBtn.style.display = "none";
-accountIcon.style.display = "inline-block";
-if (userEmail) userEmail.textContent = "Correo: " + email;
       if (!email || !password) {
         if (loginMsg) {
           loginMsg.style.color = "#d10000";
@@ -151,7 +197,12 @@ if (userEmail) userEmail.textContent = "Correo: " + email;
         registerMsg.style.color = "green";
         registerMsg.textContent = "Usuario registrado con éxito. Ahora inicia sesión.";
       }
-      registerForm.reset();
+      registerForm.style.display = "none";
+
+document.querySelector(".form-header").style.display = "none";
+document.querySelector(".form-subtext").style.display = "none";
+
+document.getElementById("discountSuccess").style.display = "flex";
       setTimeout(() => {
         if (registerMsg) registerMsg.textContent = "";
       }, 5000);
@@ -312,5 +363,42 @@ if (logoutBtn) {
   });
 }
 
+const cartLink = document.getElementById("cartLink");
+const checkoutPopup = document.getElementById("checkoutPopup");
+const goLoginBtn = document.getElementById("goLoginBtn");
 
+if (cartLink) {
+  cartLink.addEventListener("click", function (e) {
+
+    const usuarioLogueado = localStorage.getItem("loggedInUser");
+
+    if (!usuarioLogueado) {
+      e.preventDefault();
+
+      checkoutPopup.style.display = "flex";
+    }
+
+  });
+}
+
+if (goLoginBtn) {
+  goLoginBtn.addEventListener("click", function () {
+
+    checkoutPopup.style.display = "none";
+
+    loginPopup.style.display = "flex";
+    mostrarLogin();
+
+  });
+}
+
+if (checkoutPopup) {
+  checkoutPopup.addEventListener("click", function(e) {
+
+    if (e.target === checkoutPopup) {
+      checkoutPopup.style.display = "none";
+    }
+
+  });
+}
 });

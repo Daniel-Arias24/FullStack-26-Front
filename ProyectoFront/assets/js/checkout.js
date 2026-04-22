@@ -1,42 +1,67 @@
-const applyBtn = document.getElementById('applyDiscountBtn');
-  const discountInput = document.getElementById('discountCode');
-  const subtotal = 529900;
-  let currentTotal = subtotal;
+const form = document.getElementById('checkoutForm');
 
-  function formatCurrency(value) {
-    return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+form.addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  let valid = true;
+  const inputs = form.querySelectorAll('input[required]');
+
+  inputs.forEach(input => {
+    const errorMsg = input.parentElement.querySelector('.error-msg') || input.nextElementSibling;
+
+    input.classList.remove('error');
+    if (errorMsg) errorMsg.textContent = '';
+
+    if (!input.checkValidity()) {
+      valid = false;
+      input.classList.add('error');
+
+      if (errorMsg) {
+        if (input.type === 'email') {
+          errorMsg.textContent = 'Ingresa un correo válido';
+        } else if (input.type === 'tel') {
+          errorMsg.textContent = 'Ingresa un teléfono válido';
+        } else if (input.type === 'checkbox') {
+          errorMsg.textContent = 'Debes aceptar este campo';
+        } else {
+          errorMsg.textContent = 'Este campo es obligatorio';
+        }
+      }
+    }
+  });
+
+  if (valid) {
+    alert('Compra finalizada. ¡Gracias!');
+  }
+});
+
+const discountInput = document.getElementById('discountCode');
+const discountBtn = document.getElementById('applyDiscountBtn');
+const discountMsg = document.getElementById('discountMsg');
+const subtotalEl = document.querySelector('.totals span');
+const totalEl = document.querySelector('.total span');
+
+let subtotal = 529900;
+
+discountBtn.addEventListener('click', () => {
+  const code = discountInput.value.trim().toUpperCase();
+  discountInput.classList.remove('error');
+  discountMsg.textContent = '';
+  
+  if (code === '') {
+    discountInput.classList.add('error');
+    discountMsg.textContent = 'Ingresa un código';
+    return;
   }
 
-  applyBtn.addEventListener('click', () => {
-    const code = discountInput.value.trim().toLowerCase();
-    if (!code) {
-      alert('Por favor ingresa un código de descuento.');
-      return;
-    }
-
-    // Ejemplo simple de descuento
-    if (code === 'descuento10') {
-      currentTotal = Math.round(subtotal * 0.9);
-      alert('Código aplicado: 10% de descuento');
-    } else if (code === 'descuento20') {
-      currentTotal = Math.round(subtotal * 0.8);
-      alert('Código aplicado: 20% de descuento');
-    } else {
-      alert('Código de descuento inválido.');
-      currentTotal = subtotal;
-    }
-
-    // Actualizar totales en pantalla
-    document.querySelector('.totals p span').textContent = formatCurrency(currentTotal);
-    document.querySelector('.totals p.total span').textContent = formatCurrency(currentTotal);
-  });
-
-  // Validación básica del formulario antes de enviar
-  document.getElementById('checkoutForm').addEventListener('submit', (e) => {
-    if (!e.target.checkValidity()) {
-      e.preventDefault();
-      alert('Por favor, completa todos los campos correctamente.');
-      return false;
-    }
-    alert('Compra finalizada. ¡Gracias!');
-  });
+  if (code === 'DESCUENTO25') {
+    const total = subtotal * 0.6;
+    totalEl.textContent = `$${Math.floor(total)}`;
+    discountMsg.textContent = 'Descuento aplicado ✔️';
+    discountMsg.style.color = 'green';
+  } else {
+    discountInput.classList.add('error');
+    discountMsg.textContent = 'Código inválido';
+    discountMsg.style.color = '#d10000';
+  }
+});

@@ -26,12 +26,12 @@
         <div class="form-subtext-login">
           Bienvenido de nuevo, inicia sesión para acceder a tus ofertas exclusivas y novedades.
         </div>
-        <form id="loginForm">
+       <form id="loginForm" autocomplete="off">
           <div class="form-row-login">
-            <input type="email" id="loginEmail" placeholder="Ingresa tu correo" required>
+            <input type="email" id="loginEmail" placeholder="Ingresa tu correo" required autocomplete="off">
           </div>
           <div class="form-row-login">
-            <input type="password" id="loginPassword" placeholder="Ingresa tu contraseña" required>
+            <input type="password" id="loginPassword" placeholder="Ingresa tu contraseña" required autocomplete="new-password">
           </div>
           <button class="is-btn-login" type="submit">Iniciar sesión</button>
           <small id="loginMsg" style="display:block; margin-top:10px; font-size:13px;"></small>
@@ -49,7 +49,7 @@
           <div class="form-header-login">Recuperar contraseña</div>
           <div class="form-subtext-login">Ingresa tu correo y te enviaremos un enlace de recuperación.</div>
           <div class="form-row-login">
-            <input type="email" id="forgotEmail" placeholder="Ingresa tu correo">
+            <input type="email" id="forgotEmail" placeholder="Ingresa tu correo" autocomplete="off">
           </div>
           <button class="is-btn-login" id="sendResetBtn" style="width:100%; margin-top:8px;">Enviar correo</button>
           <small id="forgotMsg" style="display:block; margin-top:10px; font-size:13px;"></small>
@@ -63,8 +63,35 @@
   </div>
   <div class="account-popup" id="accountPopup">
     <div class="account-popup-content">
-      <p id="userEmail">Correo: </p>
-      <button id="logoutBtn" class="btn btn-danger">Cerrar sesión</button>
+
+      <div class="profile-top">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="user" class="profile-img">
+
+        <div class="profile-info">
+          <h3>Usuario de ESPRIT</h3>
+          <p id="userEmail">correo@gmail.com</p>
+          <span id="userRole" class="role-badge">
+            Usuario Comercial
+          </span>
+        </div>
+      </div>
+
+      <div class="password-box">
+        <label>Contraseña</label>
+
+        <div class="password-wrapper">
+          <input type="password" id="profilePassword" readonly>
+
+          <button id="togglePassword">
+            👁
+          </button>
+        </div>
+      </div>
+
+      <button id="logoutBtn" class="logout-btn">
+        Cerrar sesión
+      </button>
+
     </div>
   </div>
 
@@ -254,10 +281,10 @@
       </div>
       <form id="registerForm">
         <div class="form-row">
-          <input type="email" id="registerEmail" placeholder="Ingresa un correo" required>
+          <input type="email" id="registerEmail" placeholder="Ingresa un correo" required autocomplete="off">
         </div>
         <div class="form-row">
-          <input type="password" id="registerPassword" placeholder="Ingresa una contraseña" required>
+          <input type="password" id="registerPassword" placeholder="Ingresa una contraseña" required autocomplete="new-password">
           <button class="subscribe-btn" type="submit">Registrarme</button>
         </div>
         <small id="registerMsg" style="display:block; margin-top:10px; font-size:13px;"></small>
@@ -294,7 +321,7 @@
           <h5 class="footer-title">Enlaces</h5>
           <ul class="footer-links">
             <li><a href="#productsSection">Productos</a></li>
-            <li><a href="/ProyectoFront/pages/registroVenta.html" id="adminBtn">Admin</a></li>
+            <a href="/ProyectoFront/pages/registroVenta.html" id="adminBtn" style="display:none;">Admin</a>
           </ul>
         </div>
         <div class="col-md-4">
@@ -319,29 +346,6 @@
       </div>
     </div>
   </footer>
-  <div class="admin-popup" id="adminPopup">
-    <div class="admin-box">
-      <span class="close-admin" id="closeAdmin">×</span>
-      <div class="admin-image">
-        <img src="/ProyectoFront/assets/images/AdminPanel.png">
-      </div>
-      <div class="admin-content">
-        <div class="admin-tag">
-          acceso restringido
-        </div>
-        <h2>Panel Admin</h2>
-        <p class="admin-text">
-          Ingresa las credenciales autorizadas para acceder al panel de administración.
-        </p>
-        <input type="email" id="adminEmail" placeholder="Correo administrador">
-        <input type="password" id="adminPassword" placeholder="Contraseña">
-        <button id="adminLoginBtn">
-          Entrar al panel
-        </button>
-        <small id="adminMsg"></small>
-      </div>
-    </div>
-  </div>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="/ProyectoFront/assets/js/main.js"></script>

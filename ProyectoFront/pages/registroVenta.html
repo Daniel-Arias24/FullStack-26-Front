@@ -1,65 +1,82 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+    <script>
+
+   
+const isAdmin =
+  localStorage.getItem("isAdmin");
+
+if (isAdmin !== "true") {
+
+  window.location.href =
+    "/ProyectoFront/index.html";
+
+}
+
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ESPRIT - Registro de Ventas</title>
-    <link rel="icon" type="image/png" href="https://cdn.aptoide.com/imgs/f/1/1/f11d378a1b576edc07805780a94f5ad2_fgraphic.png">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="/ProyectoFront/assets/css/registroVenta.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="icon" type="image/png"
+        href="https://cdn.aptoide.com/imgs/f/1/1/f11d378a1b576edc07805780a94f5ad2_fgraphic.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/ProyectoFront/assets/css/registroVenta.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 </head>
+
 <body>
     <main class="fondo">
         <nav class="navbar navbar-expand-lg custom-navbar shadow-sm">
-    <div class="container ">
-      <a class="navbar-brand fw-bold" href="/ProyectoFront/index.html">☰SPRIT | Admin</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
-        <i class="fa fa-bars"></i>
-      </button>
-      <div class="collapse navbar-collapse" id="menu">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link active" href="/ProyectoFront/index.html">Home</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+            <div class="container ">
+                <a class="navbar-brand fw-bold" href="/ProyectoFront/index.html">☰SPRIT | Admin</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="menu">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/ProyectoFront/index.html">Home</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
         <div class="capa-oscura">
-            
-            <div class="container d-flex justify-content-center align-items-center vh-100">
-                <div class="col-12 col-md-8 col-lg-4">
+            <div class="admin-layout">
+                <section class="left-panel">
                     <div class="formulario-ventas">
                         <h2 class="titulo">Tienda ESPRIT</h2>
-                        <p class="subtitulo">Registro de ventas - Sucursal San Diego</p>
+                        <p class="subtitulo"> Registro de ventas - Sucursal San Diego </p>
                         <hr>
                         <form>
                             <div class="mb-3">
-                                <label class="form-label">Vendedor</label>
+                                <label class="form-label"> Vendedor </label>
                                 <select class="form-select input-form">
                                     <option selected disabled>Selecciona un vendedor</option>
-                                    <option>Pablo Serna</option>
-                                    <option>Santiago Mejía</option>
-                                    <option>Nicolás Parra</option>
-                                    <option>Jessica Mora</option>
+                                    <option>Samuel Soracá</option>
+                                    <option>Daniel Arias</option>
+                                    <option>Brahian Marin</option>
+                                    <option>Juan David Rojas</option>
                                 </select>
                             </div>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">Fecha</label>
+                                    <label class="form-label"> Fecha  </label>
                                     <input type="date" class="form-control input-form">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">Local</label>
+                                    <label class="form-label">Local </label>
                                     <input type="text" class="form-control input-form"
                                         placeholder="Centro Comercial (Local)">
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Productos</label>
+                                <label class="form-label"> Productos </label>
                                 <select class="form-select input-form">
-                                    <option selected disabled>Selecciona un producto</option>
+                                    <option selected disabled>Selecciona un producto </option>
                                     <option>Chaqueta</option>
                                     <option>Jeans</option>
                                     <option>Camiseta</option>
@@ -75,10 +92,50 @@
                             </div>
                         </form>
                     </div>
-                </div>
+                </section>
+                <section class="right-panel">
+                    <div class="dashboard-placeholder">
+
+  <div class="dashboard-content">
+
+    <div class="charts-grid">
+
+      <!-- GRÁFICA 1 -->
+      <div class="chart-card">
+        <h3>Ventas mensuales</h3>
+        <canvas id="ventasChart"></canvas>
+      </div>
+
+      <!-- GRÁFICA 2 -->
+      <div class="chart-card">
+        <h3>Productos vendidos</h3>
+        <canvas id="productosChart"></canvas>
+      </div>
+
+      <!-- GRÁFICA 3 -->
+      <div class="chart-card">
+        <h3>Vendedores</h3>
+        <canvas id="vendedoresChart" class="ingresosChart"></canvas>
+      </div>
+
+      <!-- GRÁFICA 4 -->
+      <div class="chart-card">
+        <h3>Ingresos</h3>
+        <canvas id="ingresosChart" class="ingresosChart"></canvas>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+                </section>
             </div>
         </div>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/ProyectoFront/assets/js/registroVenta.js"></script>
 </body>
+
 </html>

@@ -632,4 +632,75 @@ if (sendResetBtn) {
     }
   );
 }
+const sendResetBtn =
+  document.getElementById("sendResetBtn");
+
+if (sendResetBtn) {
+
+  sendResetBtn.addEventListener(
+    "click",
+    function () {
+
+      const email =
+        document.getElementById("forgotEmail").value.trim();
+
+      const forgotMsg =
+        document.getElementById("forgotMsg");
+
+      if (!email) {
+
+        forgotMsg.textContent =
+          "Ingresa un correo";
+
+        return;
+
+      }
+
+      const user =
+        getUser(email);
+
+      if (!user) {
+
+        forgotMsg.textContent =
+          "Ese correo no existe";
+
+        return;
+
+      }
+
+      emailjs.send(
+        "service_n9231ha",
+        "template_qvvhqi7",
+        {
+          email: email,
+          link:
+            "http://127.0.0.1:5500/ProyectoFront/pages/cambiarContrase%C3%B1a.html?email=" +
+            email,
+        }
+      )
+
+      .then(function () {
+
+        forgotMsg.style.color =
+          "green";
+
+        forgotMsg.textContent =
+          "Correo enviado correctamente";
+
+      })
+
+      .catch(function () {
+
+        forgotMsg.style.color =
+          "red";
+
+        forgotMsg.textContent =
+          "Error al enviar correo";
+
+      });
+
+    }
+  );
+
+}
 });

@@ -53,12 +53,106 @@ body {
   transition: color 0.3s ease;
 }
 
-.account-icon:hover .fa-user-circle:before {
-  color: rgb(77, 2, 2) !important;
+.account-popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+
+  display: none;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 9999;
 }
 
-.account-icon{
-  font-size: 1.3rem !important;
+.account-popup-content {
+  width: 380px;
+  background: white;
+  border-radius: 20px;
+  padding: 25px;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.profile-top {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.profile-img {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-info h3 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.profile-info p {
+  margin: 5px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.role-badge {
+  display: inline-block;
+  background: #6d0000;
+  color: white;
+
+  padding: 5px 12px;
+  border-radius: 20px;
+
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.password-box label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.password-wrapper {
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.password-wrapper input {
+  flex: 1;
+  border: none;
+  padding: 12px;
+  outline: none;
+}
+
+.password-wrapper button {
+  border: none;
+  background: #f3f3f3;
+  width: 60px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.logout-btn {
+  width: 100%;
+  margin-top: 20px;
+
+  background: #6d0000;
+  color: white;
+
+  border: none;
+  padding: 14px;
+
+  border-radius: 12px;
+
+  font-weight: bold;
 }
 @media (max-width: 768px) {
   .Variante{
@@ -936,3 +1030,115 @@ body {
   color: #007bff;
 }
 
+
+@media (max-width: 900px) {
+
+  .admin-box{
+    width: 92%;
+    height: auto;
+
+    flex-direction: column;
+
+    border-radius: 18px;
+
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .admin-image{
+    width: 100%;
+    height: 220px;
+  }
+
+  .admin-image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: bottom;
+  }
+
+  .admin-content{
+    width: 100%;
+    padding: 30px 25px;
+  }
+
+  .admin-content h2{
+    font-size: 28px;
+  }
+
+  .admin-text{
+    font-size: 13px;
+  }
+
+  .admin-content input{
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .admin-content button{
+    padding: 13px;
+    font-size: 14px;
+  }
+
+  .close-admin{
+    top: 10px;
+    right: 15px;
+    font-size: 26px;
+  }
+
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 480px) {
+
+  .admin-popup{
+    padding: 15px;
+  }
+
+  .admin-box{
+    width: 100%;
+    border-radius: 16px;
+  }
+
+  .admin-image{
+    height: 180px;
+  }
+
+  .admin-content{
+    padding: 22px 18px;
+  }
+
+  .admin-tag{
+    font-size: 10px;
+    letter-spacing: 1px;
+  }
+
+  .admin-content h2{
+    font-size: 22px;
+  }
+
+  .admin-text{
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .admin-content input{
+    padding: 11px;
+    font-size: 13px;
+  }
+
+  .admin-content button{
+    width: 100%;
+    padding: 12px;
+    font-size: 13px;
+  }
+
+  #adminMsg{
+    font-size: 12px;
+    text-align: center;
+  }
+
+}

@@ -1,59 +1,11 @@
-// Esperamos que el DOM esté listo antes de hacer cualquier cosa
 document.addEventListener("DOMContentLoaded", function () {
-
-  const adminBtn = document.getElementById("adminBtn");
-const adminPopup = document.getElementById("adminPopup");
-const closeAdmin = document.getElementById("closeAdmin");
-const adminLoginBtn = document.getElementById("adminLoginBtn");
-const adminMsg = document.getElementById("adminMsg");
-
 const ADMIN_EMAIL = "sxmxel05@gmail.com";
 const ADMIN_PASSWORD = "cesde2026";
 
-adminBtn.addEventListener("click", function(e){
-
-  e.preventDefault();
-
-  adminPopup.style.display = "flex";
-
-});
-
-closeAdmin.addEventListener("click", function(){
-
-  adminPopup.style.display = "none";
-
-});
-
-adminLoginBtn.addEventListener("click", function(){
-
-  const email =
-    document.getElementById("adminEmail").value.trim();
-
-  const password =
-    document.getElementById("adminPassword").value.trim();
-
-  if(
-    email === ADMIN_EMAIL &&
-    password === ADMIN_PASSWORD
-  ){
-
-    window.location.href =
-      "/ProyectoFront/pages/registroVenta.html";
-
-  } else {
-
-    adminMsg.style.color = "red";
-
-    adminMsg.textContent =
-      "Credenciales incorrectas";
-
-  }
-
-});
-
-  // Inicializar EmailJS de forma segura
   if (typeof emailjs !== "undefined") {
-    emailjs.init("gykPIl-Z4OsO2QkFW");
+    emailjs.init({
+  publicKey: "gykPIl-Z4OsO2QkFW",
+});
   }
 
   const loginBtn = document.getElementById("loginBtn");
@@ -74,6 +26,13 @@ adminLoginBtn.addEventListener("click", function(){
 const accountPopup = document.getElementById("accountPopup");
 const userEmail = document.getElementById("userEmail");
 const logoutBtn = document.getElementById("logoutBtn");
+const adminBtn = document.getElementById("adminBtn");
+
+if (localStorage.getItem("isAdmin") === "true") {
+
+  adminBtn.style.display = "inline-block";
+
+}
 
 if (localStorage.getItem("loggedInUser")) {
   loginBtn.style.display = "none";
@@ -135,26 +94,79 @@ if (localStorage.getItem("loggedInUser")) {
         }
         return;
       }
-      const user = getUser(email);
-      if (!user) {
-        if (loginMsg) {
-          loginMsg.style.color = "#d10000";
-          loginMsg.textContent = "Usuario no registrado. Regístrate primero.";
-        }
-        return;
-      }
-      if (user.password !== password) {
-        if (loginMsg) {
-          loginMsg.style.color = "#d10000";
-          loginMsg.textContent = "Contraseña incorrecta.";
-        }
-        return;
-      }
+      let user = getUser(email);
+
+/* LOGIN ADMIN */
+
+if (
+  email === ADMIN_EMAIL &&
+  password === ADMIN_PASSWORD
+) {
+
+  user = {
+    email: ADMIN_EMAIL,
+    password: ADMIN_PASSWORD,
+    role: "admin"
+  };
+
+}
+
+/* LOGIN USUARIO NORMAL */
+
+else {
+
+  if (!user) {
+
+    if (loginMsg) {
+
+      loginMsg.style.color = "#d10000";
+      loginMsg.textContent = "Usuario no registrado.";
+
+    }
+
+    return;
+
+  }
+
+  if (user.password !== password) {
+
+    if (loginMsg) {
+
+      loginMsg.style.color = "#d10000";
+      loginMsg.textContent = "Contraseña incorrecta.";
+
+    }
+
+    return;
+
+  }
+
+}
       if (loginMsg) {
         loginMsg.style.color = "green";
         loginMsg.textContent = "Bienvenido de nuevo. Cargando...";
       }
       localStorage.setItem("loggedInUser", email);
+      if (email === ADMIN_EMAIL) {
+
+  localStorage.setItem(
+    "isAdmin",
+    "true"
+  );
+
+  document.getElementById(
+    "adminBtn"
+  ).style.display = "inline-block";
+
+}
+
+else {
+
+  localStorage.removeItem(
+    "isAdmin"
+  );
+
+}
       if (loginBtn) loginBtn.style.display = "none";
       accountIcon.style.display = "inline-block";
 if (userEmail) userEmail.textContent = "Correo: " + email;
@@ -265,7 +277,7 @@ document.getElementById("discountSuccess").style.display = "flex";
         emailjs
           .send("service_n9231ha", "template_qvvhqi7", {
             email: email,
-            link: "https://tutienda.com/reset-password",
+            link:"http://127.0.0.1:5500/ProyectoFront/pages/cambiarContrase%C3%B1a.html?email=" + email,
           })
           .then(() => {
             if (msg) {
@@ -335,18 +347,79 @@ if (accountPopup) {
 }
 if (logoutBtn) {
   logoutBtn.addEventListener("click", function() {
-    localStorage.removeItem("loggedInUser");
+    
+    localStorage.removeItem("isAdmin");
+
+if (adminBtn) {
+
+  adminBtn.style.display = "none";
+
+}
     accountIcon.style.display = "none";
     loginBtn.style.display = "inline-block";
     accountPopup.style.display = "none";
   });
+  loginForm.reset();
+
+document.getElementById("email").value = "";
+document.getElementById("password").value = "";
 }
 if (accountIcon) {
+
   accountIcon.addEventListener("click", function(e) {
+
     e.preventDefault();
-    accountPopup.style.display = "flex";
+
+    const loggedEmail =
+      localStorage.getItem("loggedInUser");
+
+    if (!loggedEmail) return;
+
+    const user =
+      getUser(loggedEmail);
+
+    const userEmailText =
+      document.getElementById("userEmail");
+
+    const profilePassword =
+      document.getElementById("profilePassword");
+
+    const userRole =
+      document.getElementById("userRole");
+
+    if (userEmailText) {
+      userEmailText.textContent =
+        loggedEmail;
+    }
+
+    if (profilePassword && user) {
+      profilePassword.value =
+        user.password;
+    }
+
+    if (
+      loggedEmail === ADMIN_EMAIL
+    ) {
+
+      userRole.textContent =
+        "Admin";
+
+    }
+
+    else {
+
+      userRole.textContent =
+        "Usuario Comercial";
+
+    }
+
+    accountPopup.style.display =
+      "flex";
+
   });
+
 }
+
 if (accountPopup) {
   accountPopup.addEventListener("click", function(e) {
     if (e.target === accountPopup) {
@@ -400,5 +473,38 @@ if (checkoutPopup) {
     }
 
   });
+}
+
+const togglePassword =
+  document.getElementById("togglePassword");
+
+if (togglePassword) {
+
+  togglePassword.addEventListener(
+    "click",
+    function () {
+
+      const input =
+        document.getElementById(
+          "profilePassword"
+        );
+
+      if (
+        input.type === "password"
+      ) {
+
+        input.type = "text";
+
+      }
+
+      else {
+
+        input.type = "password";
+
+      }
+
+    }
+  );
+
 }
 });

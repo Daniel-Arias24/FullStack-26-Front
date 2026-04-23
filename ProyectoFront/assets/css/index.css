@@ -754,11 +754,16 @@ body {
   z-index: 10;
   cursor: pointer;
 }
-
+.loginMsg{
+  margin-top: 10px;
+  font-size: 14px;
+  display: block;
+  color: rgb(180, 0, 0);
+}
 #adminMsg{
   margin-top: 10px;
   font-size: 14px;
-  color: red;
+  color: rgb(180, 0, 0);
 }
 
 @media (max-width: 768px) {
@@ -1087,10 +1092,6 @@ body {
   }
 
 }
-
-/* =========================
-   MOBILE
-========================= */
 
 @media (max-width: 480px) {
 

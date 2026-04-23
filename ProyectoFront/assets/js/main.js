@@ -622,21 +622,14 @@ if (sendResetBtn) {
 
         forgotMsg.textContent =
           "Correo enviado correctamente";
-
       })
-
       .catch(function () {
-
         forgotMsg.style.color =
           "red";
-
         forgotMsg.textContent =
           "Error al enviar correo";
-
       });
-
     }
   );
-
 }
 });

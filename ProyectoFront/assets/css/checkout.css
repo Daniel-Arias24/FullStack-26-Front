@@ -338,6 +338,66 @@ button.submit-btn:hover {
     background: #333;
 }
 
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.72);
+    padding: 1.5rem;
+    z-index: 1100;
+}
+
+.modal-overlay.hidden {
+    display: none;
+}
+
+.thank-you-popup {
+    background: #ffffff;
+    border-radius: 28px;
+    padding: 2.5rem 2rem;
+    max-width: 520px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.success-icon-wrap {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 1.2rem;
+    border-radius: 50%;
+    background: rgba(29, 155, 57, 0.12);
+    display: grid;
+    place-items: center;
+}
+
+.success-icon {
+    color: #1d9b39;
+    font-size: 3.4rem;
+}
+
+.thank-you-popup h2 {
+    margin-bottom: 0.75rem;
+    font-size: 2rem;
+    letter-spacing: 0.02em;
+}
+
+.thank-you-popup p {
+    margin-bottom: 1.75rem;
+    color: #4d4d4d;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.thank-you-popup button {
+    width: 100%;
+    padding: 1rem 1.2rem;
+    font-size: 1rem;
+}
+
 @media (max-width: 992px) {
   .navbar-brand {
     font-size: 1.6rem;

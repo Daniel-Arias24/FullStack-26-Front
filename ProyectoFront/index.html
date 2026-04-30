@@ -281,10 +281,13 @@
       </div>
       <form id="registerForm">
         <div class="form-row">
+          <input type="text" id="registerName" placeholder="Ingresa tu nombre" required autocomplete="off">
+        </div>
+        <div class="form-row">
           <input type="email" id="registerEmail" placeholder="Ingresa un correo" required autocomplete="off">
         </div>
         <div class="form-row">
-          <input type="password" id="registerPassword" placeholder="Ingresa una contraseña" required autocomplete="new-password">
+          <input type="password" id="registerPassword" placeholder="Ingresa una contraseña (mín. 6 caracteres)" required autocomplete="new-password">
           <button class="subscribe-btn" type="submit">Registrarme</button>
         </div>
         <small id="registerMsg" style="display:block; margin-top:10px; font-size:13px;"></small>

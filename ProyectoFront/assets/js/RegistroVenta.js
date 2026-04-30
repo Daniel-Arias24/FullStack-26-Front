@@ -1,105 +1,67 @@
 // ============================================================
-//  registroVenta.js  —  Formulario + Dashboard conectados
-//  Los datos se guardan en localStorage (clave "ventas_esprit")
-//  Cuando tengas el backend Python, reemplaza loadVentas() y
-//  saveVenta() por llamadas fetch() a tu API.
+//  RegistroVenta.js  —  Panel Admin ESPRIT
+//
+//  Se conecta al microservicio Python (FastAPI) en puerto 8000.
+//
+//  ENDPOINTS QUE CONSUME:
+//  ┌──────────────────────────────────────────────────────────┐
+//  │ POST   http://localhost:8000/api/ventas   → guardar venta│
+//  │   Body: { vendedor, fecha, local, producto, canal, costo}│
+//  │                                                          │
+//  │ GET    http://localhost:8000/api/stats/dashboard         │
+//  │   → { ventas_mensuales, productos, vendedores, ingresos, │
+//  │       total_ventas, total_ingresos }                     │
+//  │                                                          │
+//  │ GET    http://localhost:8000/api/stats/resumen           │
+//  │   → { total_ventas, total_ingresos, promedio_venta,      │
+//  │       venta_mas_alta, venta_mas_baja, ... }              │
+//  │                                                          │
+//  │ GET    http://localhost:8000/api/ventas                  │
+//  │   → lista completa de ventas (tabla)                     │
+//  └──────────────────────────────────────────────────────────┘
 // ============================================================
 
-// ── Utilidades de persistencia ────────────────────────────────
-function loadVentas() {
-  const raw = localStorage.getItem("ventas_esprit");
-  return raw ? JSON.parse(raw) : [];
-}
+const API_PYTHON = "http://localhost:8000";
 
-function saveVenta(venta) {
-  const ventas = loadVentas();
-  ventas.push(venta);
-  localStorage.setItem("ventas_esprit", JSON.stringify(ventas));
-}
+// ── Colores del tema ESPRIT ───────────────────────────────────
+const COLORES = ["#ddcbcb", "rgb(233,33,33)", "#750a0a", "#440404"];
 
-// ── Helpers para calcular datos de las gráficas ───────────────
-const MESES = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
-const PRODUCTOS_BASE = ["Chaqueta","Jeans","Camiseta","Vestidos"];
-const VENDEDORES_BASE = ["Samuel Soracá","Daniel Arias","Brahian Marin","Juan David Rojas"];
-const COLORES = ["#ddcbcb","rgb(233,33,33)","#750a0a","#440404"];
-
-function calcVentasMensuales(ventas) {
-  const counts = Array(12).fill(0);
-  ventas.forEach(v => {
-    if (v.fecha) {
-      const mes = new Date(v.fecha).getMonth(); // 0-11
-      counts[mes]++;
-    }
-  });
-  // Mostrar solo meses con datos + los 6 primeros si no hay nada
-  const hayDatos = counts.some(c => c > 0);
-  if (!hayDatos) return { labels: MESES.slice(0,6), data: [120,190,300,250,420,500] };
-  return { labels: MESES, data: counts };
-}
-
-function calcProductos(ventas) {
-  const map = {};
-  PRODUCTOS_BASE.forEach(p => map[p] = 0);
-  ventas.forEach(v => {
-    if (v.producto) map[v.producto] = (map[v.producto] || 0) + 1;
-  });
-  const labels = Object.keys(map);
-  const data   = labels.map(l => map[l]);
-  const hayDatos = data.some(d => d > 0);
-  return hayDatos
-    ? { labels, data }
-    : { labels: ["Jeans","Chaquetas","Vestidos","Camisetas"], data: [50,35,20,60] };
-}
-
-function calcVendedores(ventas) {
-  const map = {};
-  VENDEDORES_BASE.forEach(v => map[v] = 0);
-  ventas.forEach(v => {
-    if (v.vendedor) map[v.vendedor] = (map[v.vendedor] || 0) + 1;
-  });
-  const labels = Object.keys(map).map(n => n.split(" ")[0]); // solo nombre
-  const data   = Object.values(map);
-  const hayDatos = data.some(d => d > 0);
-  return hayDatos
-    ? { labels, data }
-    : { labels: ["Samuel","Daniel","Brahian","Juan David"], data: [35,25,20,20] };
-}
-
-function calcIngresos(ventas) {
-  let online = 0, fisico = 0;
-  ventas.forEach(v => {
-  const monto = parseFloat(v.costo) || 0;
-  if (v.canal === "online") online += monto;
-  else fisico += monto;
-});
-  const hayDatos = online > 0 || fisico > 0;
-  return hayDatos
-    ? { labels: ["Online","Tienda física"], data: [online, fisico] }
-    : { labels: ["Online","Tienda física"], data: [65, 35] };
-}
-
-// ── Instancias de Chart.js ────────────────────────────────────
-let chartVentas, chartProductos, chartVendedores, chartIngresos;
-
-const chartConfig = {
+const CHART_OPTIONS_BASE = {
+  responsive: true,
+  plugins: { legend: { labels: { color: "white" } } },
   scales: {
     x: { ticks: { color: "white" } },
     y: { ticks: { color: "white" } }
-  },
-  plugins: { legend: { labels: { color: "white" } } }
+  }
 };
 
-function initCharts() {
-  const ventas = loadVentas();
+// ────────────────────────────────────────────────────────────
+//  INSTANCIAS DE CHART.JS
+// ────────────────────────────────────────────────────────────
+let chartVentas, chartProductos, chartVendedores, chartIngresos;
 
-  const mv = calcVentasMensuales(ventas);
+// ── Datos de placeholder (se muestran mientras carga) ────────
+const PLACEHOLDER = {
+  ventas_mensuales: { labels: ["Ene","Feb","Mar","Abr","May","Jun"], data: [0,0,0,0,0,0] },
+  productos:        { labels: ["Chaqueta","Jeans","Camiseta","Vestidos"], data: [0,0,0,0] },
+  vendedores:       { labels: ["Samuel","Daniel","Brahian","Juan David"], data: [0,0,0,0] },
+  ingresos:         { labels: ["Online","Tienda física"], data: [0,0] }
+};
+
+function initCharts(stats) {
+  const d = stats || PLACEHOLDER;
+
+  // Destruir si ya existen (para actualizaciones)
+  [chartVentas, chartProductos, chartVendedores, chartIngresos].forEach(c => { if (c) c.destroy(); });
+
+  // ── Gráfica 1: Ventas mensuales (línea) ──────────────────
   chartVentas = new Chart(document.getElementById("ventasChart"), {
     type: "line",
     data: {
-      labels: mv.labels,
+      labels: d.ventas_mensuales.labels,
       datasets: [{
         label: "Ventas",
-        data: mv.data,
+        data:  d.ventas_mensuales.data,
         borderColor: "#440404",
         backgroundColor: "rgba(221,203,203,0.35)",
         tension: 0.4,
@@ -108,150 +70,362 @@ function initCharts() {
         pointRadius: 4
       }]
     },
-    options: { responsive: true, ...chartConfig }
+    options: { ...CHART_OPTIONS_BASE, responsive: true }
   });
 
-  const mp = calcProductos(ventas);
+  // ── Gráfica 2: Productos vendidos (barras) ───────────────
   chartProductos = new Chart(document.getElementById("productosChart"), {
     type: "bar",
     data: {
-      labels: mp.labels,
+      labels: d.productos.labels,
       datasets: [{
         label: "Cantidad",
-        data: mp.data,
+        data:  d.productos.data,
         backgroundColor: COLORES
       }]
     },
-    options: { responsive: true, ...chartConfig }
+    options: { ...CHART_OPTIONS_BASE, responsive: true }
   });
 
-  const mv2 = calcVendedores(ventas);
+  // ── Gráfica 3: Vendedores (dona) ─────────────────────────
   chartVendedores = new Chart(document.getElementById("vendedoresChart"), {
     type: "doughnut",
     data: {
-      labels: mv2.labels,
-      datasets: [{ data: mv2.data, backgroundColor: COLORES }]
+      labels: d.vendedores.labels,
+      datasets: [{ data: d.vendedores.data, backgroundColor: COLORES }]
     },
-    options: { responsive: true, plugins: { legend: { labels: { color: "white" } } } }
+    options: {
+      responsive: true,
+      plugins: { legend: { labels: { color: "white" } } }
+    }
   });
 
-  const mi = calcIngresos(ventas);
+  // ── Gráfica 4: Ingresos online vs física (pie) ───────────
   chartIngresos = new Chart(document.getElementById("ingresosChart"), {
     type: "pie",
     data: {
-      labels: mi.labels,
-      datasets: [{ data: mi.data, backgroundColor: ["#ddcbcb","#440404"] }]
+      labels: d.ingresos.labels,
+      datasets: [{ data: d.ingresos.data, backgroundColor: ["#ddcbcb","#440404"] }]
     },
-    options: { responsive: true, plugins: { legend: { labels: { color: "white" } } } }
+    options: {
+      responsive: true,
+      plugins: { legend: { labels: { color: "white" } } }
+    }
   });
 }
 
-function updateCharts() {
-  const ventas = loadVentas();
+// ────────────────────────────────────────────────────────────
+//  CARGAR DATOS DESDE PYTHON  →  GET /api/stats/dashboard
+// ────────────────────────────────────────────────────────────
+async function cargarDashboard() {
+  try {
+    const [dashRes, resumenRes] = await Promise.all([
+      fetch(`${API_PYTHON}/api/stats/dashboard`),
+      fetch(`${API_PYTHON}/api/stats/resumen`)
+    ]);
 
-  const mv = calcVentasMensuales(ventas);
-  chartVentas.data.labels = mv.labels;
-  chartVentas.data.datasets[0].data = mv.data;
-  chartVentas.update();
+    if (!dashRes.ok) throw new Error("Error al cargar dashboard");
 
-  const mp = calcProductos(ventas);
-  chartProductos.data.labels = mp.labels;
-  chartProductos.data.datasets[0].data = mp.data;
-  chartProductos.update();
+    const stats   = await dashRes.json();
+    const resumen = resumenRes.ok ? await resumenRes.json() : null;
 
-  const mv2 = calcVendedores(ventas);
-  chartVendedores.data.labels = mv2.labels;
-  chartVendedores.data.datasets[0].data = mv2.data;
-  chartVendedores.update();
+    // Actualizar gráficas con datos reales
+    initCharts(stats);
 
-  const mi = calcIngresos(ventas);
-  chartIngresos.data.labels = mi.labels;
-  chartIngresos.data.datasets[0].data = mi.data;
-  chartIngresos.update();
-}
+    // Actualizar tarjetas de resumen si existen en el HTML
+    if (resumen && !resumen.mensaje) {
+      actualizarTarjetas(resumen);
+    }
 
-// ── Formulario ────────────────────────────────────────────────
-function bindForm() {
-  // Agregar IDs al HTML del formulario si no los tienen
-  const form      = document.querySelector(".formulario-ventas form");
-  const canalSel = document.getElementById("canalVenta");
-  const selVend   = document.querySelector('select.form-select');
-  const inputs    = document.querySelectorAll('input.form-control');
-  const selProd   = document.querySelectorAll('select.form-select')[1];
-  const btnGuardar = document.querySelector(".boton-guardar");
+    // Cargar tabla de ventas recientes
+    cargarTablaVentas();
 
-  // Asignamos IDs programáticamente para no tocar el HTML
-  if (form) form.id = "formVenta";
-
-  const allSelects = document.querySelectorAll("select.form-select");
-  const vendedorSel = allSelects[0];
-  const productoSel = allSelects[1];
-  const fechaInput  = document.querySelector('input[type="date"]');
-  const localInput  = document.querySelector('input[type="text"]');
-  const costoInput  = document.querySelector('input[type="number"]');
-
-  if (btnGuardar) {
-    btnGuardar.addEventListener("click", function (e) {
-      e.preventDefault();
-
-      const vendedor = vendedorSel ? vendedorSel.value : "";
-      const fecha    = fechaInput  ? fechaInput.value  : "";
-      const local    = localInput  ? localInput.value  : "";
-      const producto = productoSel ? productoSel.value : "";
-      const costo    = costoInput  ? costoInput.value  : "0";
-
-      // Validación básica
-      if (
-        !vendedor || vendedor === "Selecciona un vendedor" ||
-        !fecha ||
-        !producto || producto === "Selecciona un producto" ||
-        !costo || parseFloat(costo) <= 0
-      ) {
-        showToast("⚠️ Completa todos los campos antes de registrar.", "warning");
-        return;
-      }
-
-      const venta = {
-        vendedor,
-        fecha,
-        local,
-        producto,
-        canal: canalSel ? canalSel.value : "fisica",
-        costo: parseFloat(costo),
-        timestamp: Date.now()
-      };
-
-      saveVenta(venta);
-      updateCharts();
-      showToast(`✅ Venta registrada — ${producto} por $${parseFloat(costo).toLocaleString("es-CO")}`, "success");
-
-      // Reset form
-      if (canalSel) canalSel.selectedIndex = 0;
-      if (vendedorSel) vendedorSel.selectedIndex = 0;
-      if (fechaInput)  fechaInput.value = "";
-      if (localInput)  localInput.value = "";
-      if (productoSel) productoSel.selectedIndex = 0;
-      if (costoInput)  costoInput.value = "";
-    });
+  } catch (err) {
+    console.warn("⚠️ No se pudo conectar con el análisis Python:", err.message);
+    console.warn("Asegúrate de tener corriendo: uvicorn main:app --reload (puerto 8000)");
+    // Mostrar gráficas con placeholder en lugar de romper la UI
+    initCharts(null);
   }
 }
 
-// ── Toast de feedback ─────────────────────────────────────────
+// ── Actualizar tarjetas KPI ──────────────────────────────────
+function actualizarTarjetas(resumen) {
+  const totalVentasEl    = document.getElementById("kpiTotalVentas");
+  const totalIngresosEl  = document.getElementById("kpiTotalIngresos");
+  const promedioEl       = document.getElementById("kpiPromedio");
+  const topVentaEl       = document.getElementById("kpiTopVenta");
+
+  if (totalVentasEl)   totalVentasEl.textContent   = resumen.total_ventas;
+  if (totalIngresosEl) totalIngresosEl.textContent = `$${resumen.total_ingresos.toLocaleString("es-CO")}`;
+  if (promedioEl)      promedioEl.textContent      = `$${resumen.promedio_venta.toLocaleString("es-CO")}`;
+  if (topVentaEl && resumen.venta_mas_alta) {
+    topVentaEl.textContent = `${resumen.venta_mas_alta.producto} – $${resumen.venta_mas_alta.costo.toLocaleString("es-CO")}`;
+  }
+}
+
+// ── Tabla de ventas recientes ────────────────────────────────
+async function cargarTablaVentas() {
+  const tbody = document.getElementById("tablaVentasBody");
+  if (!tbody) return;
+
+  try {
+    const res   = await fetch(`${API_PYTHON}/api/ventas`);
+    const lista = await res.json();
+
+    if (!lista.length) {
+      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#aaa;">Sin ventas registradas aún</td></tr>`;
+      return;
+    }
+
+    // Mostrar las últimas 10 ventas
+    tbody.innerHTML = lista.slice(0, 10).map(v => `
+      <tr>
+        <td>${v.vendedor}</td>
+        <td>${v.fecha}</td>
+        <td>${v.producto}</td>
+        <td>${v.canal}</td>
+        <td>$${parseFloat(v.costo).toLocaleString("es-CO")}</td>
+        <td>
+          <button class="btn-eliminar" data-id="${v.id}" title="Eliminar venta">
+            🗑
+          </button>
+        </td>
+      </tr>
+    `).join("");
+
+    // Bindear botones de eliminar
+    tbody.querySelectorAll(".btn-eliminar").forEach(btn => {
+      btn.addEventListener("click", async function () {
+        const id = this.dataset.id;
+        if (!confirm(`¿Eliminar la venta #${id}?`)) return;
+        await eliminarVenta(id);
+      });
+    });
+
+  } catch (err) {
+    tbody.innerHTML = `<tr><td colspan="6" style="color:red;">Error cargando ventas</td></tr>`;
+  }
+}
+
+// ── Eliminar venta  →  DELETE /api/ventas/{id} ───────────────
+async function eliminarVenta(id) {
+  try {
+    const res = await fetch(`${API_PYTHON}/api/ventas/${id}`, { method: "DELETE" });
+    if (res.ok || res.status === 204) {
+      showToast(`🗑 Venta #${id} eliminada`, "warning");
+      await cargarDashboard(); // refrescar todo
+    } else {
+      showToast("Error al eliminar la venta", "error");
+    }
+  } catch (err) {
+    showToast("No se pudo conectar con el servidor", "error");
+  }
+}
+
+// ────────────────────────────────────────────────────────────
+//  FORMULARIO  →  POST /api/ventas
+//
+//  Body que espera Python:
+//  { vendedor, fecha, local, producto, canal, costo }
+// ────────────────────────────────────────────────────────────
+function bindForm() {
+  // Asignar IDs a los elementos del formulario (no modifica el HTML)
+  const allSelects  = document.querySelectorAll("select.form-select");
+  const vendedorSel = allSelects[0];
+  const productoSel = allSelects[1];
+  const canalSel    = document.getElementById("canalVenta");
+  const fechaInput  = document.querySelector('input[type="date"]');
+  const costoInput  = document.querySelector('input[type="number"]');
+  const btnGuardar  = document.querySelector(".boton-guardar");
+
+  if (!btnGuardar) return;
+
+  btnGuardar.addEventListener("click", async function (e) {
+    e.preventDefault();
+
+    const vendedor = vendedorSel ? vendedorSel.value : "";
+    const fecha    = fechaInput  ? fechaInput.value  : "";
+    const producto = productoSel ? productoSel.value : "";
+    const canal    = canalSel    ? canalSel.value    : "fisica";
+    const costo    = costoInput  ? parseFloat(costoInput.value) : 0;
+
+    // ── Validación en el front ───────────────────────────────
+    if (!vendedor || vendedor === "Selecciona un vendedor") {
+      showToast("⚠️ Selecciona un vendedor.", "warning"); return;
+    }
+    if (!fecha) {
+      showToast("⚠️ Selecciona una fecha.", "warning"); return;
+    }
+    if (!producto || producto === "Selecciona un producto") {
+      showToast("⚠️ Selecciona un producto.", "warning"); return;
+    }
+    if (!canal || canal === "Selecciona el canal") {
+      showToast("⚠️ Selecciona el canal de venta.", "warning"); return;
+    }
+    if (!costo || costo <= 0) {
+      showToast("⚠️ Ingresa un costo mayor a 0.", "warning"); return;
+    }
+
+    const venta = { vendedor, fecha, local: "", producto, canal, costo };
+
+    // ── Llamada a Python  →  POST /api/ventas ────────────────
+    try {
+      btnGuardar.disabled    = true;
+      btnGuardar.textContent = "Guardando...";
+
+      const res  = await fetch(`${API_PYTHON}/api/ventas`, {
+        method:  "POST",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify(venta)
+      });
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      const guardada = await res.json();
+
+      showToast(`✅ Venta registrada — ${guardada.producto} por $${guardada.costo.toLocaleString("es-CO")}`, "success");
+
+      // Resetear formulario
+      if (vendedorSel) vendedorSel.selectedIndex = 0;
+      if (productoSel) productoSel.selectedIndex = 0;
+      if (canalSel)    canalSel.selectedIndex    = 0;
+      if (fechaInput)  fechaInput.value           = "";
+      if (costoInput)  costoInput.value           = "";
+
+      // Refrescar gráficas y tabla con los nuevos datos
+      await cargarDashboard();
+
+    } catch (err) {
+      console.error("Error al guardar venta:", err);
+      showToast("❌ No se pudo guardar. ¿Está corriendo el servidor Python?", "error");
+    } finally {
+      btnGuardar.disabled    = false;
+      btnGuardar.textContent = "Registrar venta";
+    }
+  });
+}
+
+// ────────────────────────────────────────────────────────────
+//  INYECTAR TARJETAS KPI Y TABLA EN EL HTML
+//  (se insertan dinámicamente para no tocar el HTML existente)
+// ────────────────────────────────────────────────────────────
+function inyectarUIExtra() {
+  const dashboardContent = document.querySelector(".dashboard-content");
+  if (!dashboardContent) return;
+
+  // ── Tarjetas KPI ─────────────────────────────────────────
+  const kpiHTML = `
+    <div id="kpi-row" style="
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    ">
+      ${[
+        { id: "kpiTotalVentas",   label: "Total ventas",    icon: "🛒" },
+        { id: "kpiTotalIngresos", label: "Ingresos totales",icon: "💰" },
+        { id: "kpiPromedio",      label: "Promedio/venta",  icon: "📊" },
+        { id: "kpiTopVenta",      label: "Venta más alta",  icon: "🏆" }
+      ].map(k => `
+        <div style="
+          background: rgba(255,255,255,0.07);
+          border: 1px solid rgba(255,255,255,0.12);
+          border-radius: 12px;
+          padding: 14px 16px;
+          color: white;
+        ">
+          <div style="font-size:22px; margin-bottom:4px;">${k.icon}</div>
+          <div style="font-size:11px; color:#aaa; text-transform:uppercase; letter-spacing:.5px;">${k.label}</div>
+          <div id="${k.id}" style="font-size:18px; font-weight:700; margin-top:4px;">—</div>
+        </div>
+      `).join("")}
+    </div>
+  `;
+
+  // ── Tabla de ventas recientes ────────────────────────────
+  const tablaHTML = `
+    <div id="tabla-ventas-card" style="
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 20px;
+      color: white;
+    ">
+      <h3 style="font-size:14px; margin-bottom:12px; color:#ddcbcb;">
+        📋 Ventas recientes (últimas 10)
+      </h3>
+      <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+          <thead>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.15);">
+              <th style="padding:8px; text-align:left; color:#aaa;">Vendedor</th>
+              <th style="padding:8px; text-align:left; color:#aaa;">Fecha</th>
+              <th style="padding:8px; text-align:left; color:#aaa;">Producto</th>
+              <th style="padding:8px; text-align:left; color:#aaa;">Canal</th>
+              <th style="padding:8px; text-align:left; color:#aaa;">Costo</th>
+              <th style="padding:8px; text-align:left; color:#aaa;">Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tablaVentasBody">
+            <tr><td colspan="6" style="padding:12px; color:#aaa; text-align:center;">Cargando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+
+  // ── Estilos para botones de la tabla ────────────────────
+  const style = document.createElement("style");
+  style.textContent = `
+    .btn-eliminar {
+      background: transparent;
+      border: 1px solid rgba(233,33,33,0.4);
+      color: #e92121;
+      border-radius: 6px;
+      padding: 3px 8px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: background .2s;
+    }
+    .btn-eliminar:hover { background: rgba(233,33,33,0.15); }
+    #tabla-ventas-card tr:hover td { background: rgba(255,255,255,0.04); }
+    #tabla-ventas-card td { padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  `;
+  document.head.appendChild(style);
+
+  // Insertar KPIs antes de las gráficas
+  dashboardContent.insertAdjacentHTML("afterbegin", kpiHTML);
+  // Insertar tabla después de las gráficas
+  dashboardContent.insertAdjacentHTML("beforeend", tablaHTML);
+}
+
+// ────────────────────────────────────────────────────────────
+//  TOAST DE FEEDBACK
+// ────────────────────────────────────────────────────────────
 function showToast(msg, type = "success") {
   const existing = document.getElementById("esprit-toast");
   if (existing) existing.remove();
+
+  const colores = {
+    success: { bg: "#1a1a1a", border: "#ddcbcb" },
+    warning: { bg: "#3a2800", border: "#e9a033" },
+    error:   { bg: "#2a0000", border: "#e92121" }
+  };
+  const c = colores[type] || colores.success;
 
   const t = document.createElement("div");
   t.id = "esprit-toast";
   t.textContent = msg;
   t.style.cssText = `
     position: fixed; bottom: 28px; right: 28px; z-index: 9999;
-    background: ${type === "success" ? "#1a1a1a" : "#5a2a00"};
-    color: #fff; padding: 14px 22px; border-radius: 10px;
+    background: ${c.bg}; color: #fff;
+    padding: 14px 22px; border-radius: 10px;
     font-size: 14px; font-family: sans-serif;
-    border-left: 4px solid ${type === "success" ? "#ddcbcb" : "#e9a033"};
+    border-left: 4px solid ${c.border};
     box-shadow: 0 6px 20px rgba(0,0,0,0.4);
     animation: slideIn .3s ease;
+    max-width: 340px;
   `;
 
   const style = document.createElement("style");
@@ -261,30 +435,11 @@ function showToast(msg, type = "success") {
   setTimeout(() => t.remove(), 3500);
 }
 
-// ── Botón para limpiar datos (útil en desarrollo) ─────────────
-function addResetButton() {
-  const panel = document.querySelector(".formulario-ventas");
-  if (!panel) return;
-  const btn = document.createElement("button");
-  btn.textContent = "🗑 Limpiar datos de prueba";
-  btn.style.cssText = `
-    margin-top: 12px; width: 100%; background: transparent;
-    border: 1px solid rgba(255,255,255,0.2); color: #aaa;
-    border-radius: 8px; padding: 8px; cursor: pointer; font-size: 12px;
-  `;
-  btn.addEventListener("click", () => {
-    if (confirm("¿Eliminar todas las ventas guardadas?")) {
-      localStorage.removeItem("ventas_esprit");
-      updateCharts();
-      showToast("🗑 Datos eliminados", "warning");
-    }
-  });
-  panel.appendChild(btn);
-}
-
-// ── INIT ──────────────────────────────────────────────────────
-document.addEventListener("DOMContentLoaded", function () {
-  initCharts();
-  bindForm();
-  addResetButton();
+// ────────────────────────────────────────────────────────────
+//  INIT
+// ────────────────────────────────────────────────────────────
+document.addEventListener("DOMContentLoaded", async function () {
+  inyectarUIExtra();   // 1. Inyectar KPIs y tabla en el DOM
+  bindForm();          // 2. Bindear eventos del formulario
+  await cargarDashboard(); // 3. Cargar datos reales desde Python
 });

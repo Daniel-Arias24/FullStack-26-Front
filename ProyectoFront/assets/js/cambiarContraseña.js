@@ -1,103 +1,88 @@
 
-    const btn =
-    document.getElementById("savePassword");
+const API = "http://localhost:8080/api";
 
-    btn.addEventListener("click", function(){
+const btn             = document.getElementById("savePassword");
+const newPasswordEl   = document.getElementById("newPassword");
+const confirmPasswordEl = document.getElementById("confirmPassword");
+const msg             = document.getElementById("msg");
 
-      const params =
-      new URLSearchParams(window.location.search);
+function setMsg(texto, color = "red") {
+  msg.style.color   = color;
+  msg.textContent   = texto;
+}
 
-      const email =
-      params.get("email");
+btn.addEventListener("click", async function () {
 
-      const nuevaPassword =
-      document.getElementById("newPassword").value;
+  const params          = new URLSearchParams(window.location.search);
+  const email           = params.get("email");
+  const nuevaPassword   = newPasswordEl.value;
+  const confirmarPassword = confirmPasswordEl.value;
 
-      const confirmarPassword =
-      document.getElementById("confirmPassword").value;
+  // ── Validaciones en el front ────────────────────────────
+  if (!email) {
+    setMsg("Enlace inválido. No se encontró el correo.");
+    return;
+  }
+  if (!nuevaPassword || !confirmarPassword) {
+    setMsg("Completa todos los campos.");
+    return;
+  }
+  if (nuevaPassword.length < 6) {
+    setMsg("La contraseña debe tener mínimo 6 caracteres.");
+    return;
+  }
+  if (nuevaPassword !== confirmarPassword) {
+    setMsg("Las contraseñas no coinciden.");
+    return;
+  }
 
-      const msg =
-      document.getElementById("msg");
+  setMsg("Actualizando...", "#999");
 
-      if(
-        !nuevaPassword ||
-        !confirmarPassword
-      ){
+  try {
+    // ── Paso 1: buscar el usuario por email ──────────────
+    // GET /api/users → filtramos por email en el front
+    const listRes  = await fetch(`${API}/users`);
+    const listJson = await listRes.json();
 
-        msg.style.color = "red";
+    if (!listRes.ok || !listJson.success) {
+      setMsg("Error al conectar con el servidor.");
+      return;
+    }
 
-        msg.textContent =
-        "Completa todos los campos.";
+    const usuario = listJson.data.find(
+      u => u.email.toLowerCase() === email.toLowerCase()
+    );
 
-        return;
+    if (!usuario) {
+      setMsg("No se encontró ningún usuario con ese correo.");
+      return;
+    }
 
-      }
-
-      if(
-        nuevaPassword.length < 6
-      ){
-
-        msg.style.color = "red";
-
-        msg.textContent =
-        "La contraseña debe tener mínimo 6 caracteres.";
-
-        return;
-
-      }
-
-      if(
-        nuevaPassword !== confirmarPassword
-      ){
-
-        msg.style.color = "red";
-
-        msg.textContent =
-        "Las contraseñas no coinciden.";
-
-        return;
-
-      }
-
-      const user =
-      JSON.parse(
-        localStorage.getItem(
-          `user_${email.toLowerCase()}`
-        )
-      );
-
-      if(!user){
-
-        msg.style.color = "red";
-
-        msg.textContent =
-        "Usuario no encontrado.";
-
-        return;
-
-      }
-
-      user.password =
-      nuevaPassword;
-
-      localStorage.setItem(
-
-        `user_${email.toLowerCase()}`,
-
-        JSON.stringify(user)
-
-      );
-
-      msg.style.color = "green";
-
-      msg.textContent =
-      "✅ Contraseña actualizada correctamente.";
-
-      setTimeout(() => {
-
-        window.location.href =
-        "/ProyectoFront/index.html";
-
-      }, 2000);
-
+    // ── Paso 2: actualizar contraseña ─────────────────────
+    // PUT /api/users/{id}  body: { password }
+    const updateRes  = await fetch(`${API}/users/${usuario.id}`, {
+      method:  "PUT",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ password: nuevaPassword })
     });
+
+    const updateJson = await updateRes.json();
+
+    if (!updateRes.ok || !updateJson.success) {
+      setMsg(updateJson.message || "Error al actualizar la contraseña.");
+      return;
+    }
+
+    // ── Éxito ─────────────────────────────────────────────
+    setMsg("✅ Contraseña actualizada correctamente.", "green");
+
+    setTimeout(() => {
+      window.location.href = "/ProyectoFront/index.html";
+    }, 2000);
+
+  } catch (err) {
+    console.error("Error de red:", err);
+    setMsg("No se pudo conectar con el servidor. ¿Está corriendo el back?");
+  }
+
+});

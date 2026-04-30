@@ -4,16 +4,16 @@
 <head>
     <script>
 
-   
-const isAdmin =
-  localStorage.getItem("isAdmin");
 
-if (isAdmin !== "true") {
+        const isAdmin =
+            localStorage.getItem("isAdmin");
 
-  window.location.href =
-    "/ProyectoFront/index.html";
+        if (isAdmin !== "true") {
 
-}
+            window.location.href =
+                "/ProyectoFront/index.html";
+
+        }
 
     </script>
     <meta charset="UTF-8">
@@ -64,13 +64,18 @@ if (isAdmin !== "true") {
                             </div>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label"> Fecha  </label>
+                                    <label class="form-label"> Fecha </label>
                                     <input type="date" class="form-control input-form">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">Local </label>
-                                    <input type="text" class="form-control input-form"
-                                        placeholder="Centro Comercial (Local)">
+                                    <div class="mb-3">
+                                        <label class="form-label">Canal de venta</label>
+                                        <select class="form-select input-form" id="canalVenta">
+                                            <option selected disabled>Selecciona el canal</option>
+                                            <option value="online">Online</option>
+                                            <option value="fisica">Tienda física</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -96,39 +101,39 @@ if (isAdmin !== "true") {
                 <section class="right-panel">
                     <div class="dashboard-placeholder">
 
-  <div class="dashboard-content">
+                        <div class="dashboard-content">
 
-    <div class="charts-grid">
+                            <div class="charts-grid">
 
-      <!-- GRÁFICA 1 -->
-      <div class="chart-card">
-        <h3>Ventas mensuales</h3>
-        <canvas id="ventasChart"></canvas>
-      </div>
+                                <!-- GRÁFICA 1 -->
+                                <div class="chart-card">
+                                    <h3>Ventas mensuales</h3>
+                                    <canvas id="ventasChart"></canvas>
+                                </div>
 
-      <!-- GRÁFICA 2 -->
-      <div class="chart-card">
-        <h3>Productos vendidos</h3>
-        <canvas id="productosChart"></canvas>
-      </div>
+                                <!-- GRÁFICA 2 -->
+                                <div class="chart-card">
+                                    <h3>Productos vendidos</h3>
+                                    <canvas id="productosChart"></canvas>
+                                </div>
 
-      <!-- GRÁFICA 3 -->
-      <div class="chart-card">
-        <h3>Vendedores</h3>
-        <canvas id="vendedoresChart" class="ingresosChart"></canvas>
-      </div>
+                                <!-- GRÁFICA 3 -->
+                                <div class="chart-card">
+                                    <h3>Vendedores</h3>
+                                    <canvas id="vendedoresChart" class="ingresosChart"></canvas>
+                                </div>
 
-      <!-- GRÁFICA 4 -->
-      <div class="chart-card">
-        <h3>Ingresos</h3>
-        <canvas id="ingresosChart" class="ingresosChart"></canvas>
-      </div>
+                                <!-- GRÁFICA 4 -->
+                                <div class="chart-card">
+                                    <h3>Ingresos</h3>
+                                    <canvas id="ingresosChart" class="ingresosChart"></canvas>
+                                </div>
 
-    </div>
+                            </div>
 
-  </div>
+                        </div>
 
-</div>
+                    </div>
                 </section>
             </div>
         </div>

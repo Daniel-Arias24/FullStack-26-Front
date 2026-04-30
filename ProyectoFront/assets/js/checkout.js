@@ -7,7 +7,7 @@ form.addEventListener('submit', function (e) {
   const inputs = form.querySelectorAll('input[required]');
 
   inputs.forEach(input => {
-    const errorMsg = input.parentElement.querySelector('.error-msg') || input.nextElementSibling;
+    const errorMsg = input.parentElement.querySelector('.error-msg') || (input.type !== 'checkbox' ? input.nextElementSibling : null);
 
     input.classList.remove('error');
     if (errorMsg) errorMsg.textContent = '';
@@ -31,9 +31,29 @@ form.addEventListener('submit', function (e) {
   });
 
   if (valid) {
-    alert('Compra finalizada. ¡Gracias!');
+    openThankYouModal();
   }
 });
+
+const thankYouModal = document.getElementById('thankYouModal');
+const closeModalBtn = document.getElementById('closeModalBtn');
+
+function openThankYouModal() {
+  if (!thankYouModal) return;
+  thankYouModal.classList.remove('hidden');
+}
+
+function closeThankYouModal() {
+  if (!thankYouModal) return;
+  thankYouModal.classList.add('hidden');
+}
+
+if (closeModalBtn) {
+  closeModalBtn.addEventListener('click', () => {
+    closeThankYouModal();
+    window.location.href = '/ProyectoFront/index.html';
+  });
+}
 
 const discountInput = document.getElementById('discountCode');
 const discountBtn = document.getElementById('applyDiscountBtn');
